@@ -4,8 +4,8 @@ Offline workout planning, training logs, and personal notes for Windows and Andr
 
 ## Download v1.1.0
 
-- [Windows portable app](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/GYM%20app.exe)
-- [Android APK](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/FORM%20Gym.apk)
+- [Windows portable app](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/GYM.app.exe)
+- [Android APK](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/FORM.Gym.apk)
 
 ### Platform notes
 
