@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#111410" />
+    <meta name="description" content="Your training, your notes, your progress. FORM Gym." />
+    <title>FORM · GYM app</title>
+    <style>
+      html {
+        background: #111713;
+        color: #edf4ef;
+        color-scheme: dark;
+      }
+      html[data-appearance='light'] {
+        background: #f7f7f4;
+        color: #1d2721;
+        color-scheme: light;
+      }
+    </style>
+    <script>
+      (() => {
+        let appearance = 'dark';
+        try {
+          const saved = JSON.parse(localStorage.getItem('form-gym-data-v1') || 'null');
+          if (saved?.settings?.appearance === 'light') appearance = 'light';
+        } catch {
+          /* Preserve unavailable or damaged storage and use the default theme. */
+        }
+        document.documentElement.dataset.appearance = appearance;
+        document.querySelector('meta[name="theme-color"]').content =
+          appearance === 'light' ? '#f7f7f4' : '#111713';
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

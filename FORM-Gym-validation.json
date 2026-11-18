@@ -1,0 +1,21 @@
+{
+  "version": "1.1.0",
+  "artifacts": {
+    "windows": {
+      "file": "GYM app.exe",
+      "sha256": "f7deb1564d760d5fbb658dc5153b80dae19ac4d81bfbfca96d4d6dfc63518104",
+      "platform": "Windows x64",
+      "signature": "unsigned"
+    },
+    "android": {
+      "file": "FORM Gym.apk",
+      "sha256": "55a1f558406ec6f94c6a577a459da4e805b0e4455b8283937fa3dac9f7554aa1",
+      "minAndroid": "6.0",
+      "signature": "locally signed; signing key intentionally private"
+    }
+  },
+  "notes": [
+    "Existing v1.1.0 binaries were selected for release; this record does not claim a fresh rebuild or runtime validation.",
+    "Future Android updates must use the original private release key."
+  ]
+}

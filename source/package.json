@@ -1,0 +1,70 @@
+{
+  "name": "form-gym",
+  "version": "1.1.0",
+  "private": true,
+  "description": "FORM - thoughtful offline workout planning and training notes",
+  "author": "GYM app",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "test": "vitest run tests/engine.test.ts tests/report.test.ts tests/storage.test.ts tests/appearance.test.ts tests/groups-client.test.ts",
+    "test:social": "playwright test tests/new-social.spec.ts --workers=1",
+    "test:groups": "node --test tests/groups-server.test.cjs",
+    "groups:server": "node scripts/group-server.cjs",
+    "test:e2e": "playwright test tests/app.spec.ts --workers=1",
+    "desktop": "electron .",
+    "package:win": "npm run build && node scripts/prepare-desktop.mjs && electron-builder --win portable --x64",
+    "android:sync": "npm run build && cap sync android",
+    "test:desktop": "playwright test tests/desktop.spec.ts --workers=1",
+    "format": "prettier --write src tests electron *.json *.ts index.html"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.4.4",
+    "@capacitor/core": "^7.4.4",
+    "@capacitor/filesystem": "^7.1.9",
+    "@capacitor/share": "^7.0.4",
+    "@fontsource/barlow-condensed": "^5.2.8",
+    "@fontsource/dm-sans": "^5.2.8",
+    "lucide-react": "^0.468.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.4",
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^35.0.0",
+    "electron-builder": "^26.0.12",
+    "prettier": "^3.10.1",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.5",
+    "vitest": "^3.0.5"
+  },
+  "build": {
+    "appId": "com.form.gym",
+    "productName": "GYM app",
+    "directories": {
+      "app": "desktop-stage",
+      "output": "../build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "package.json",
+      "!**/node_modules/**/*"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "public/icon.ico",
+      "signAndEditExecutable": true,
+      "signExecutable": false
+    },
+    "portable": {
+      "artifactName": "GYM app.exe"
+    }
+  }
+}

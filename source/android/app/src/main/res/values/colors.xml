@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="form_background">#111713</color>
+    <color name="form_navigation">#111713</color>
+    <color name="colorPrimary">#8FE8CF</color>
+    <color name="colorPrimaryDark">#111713</color>
+    <color name="colorAccent">#8FE8CF</color>
+</resources>

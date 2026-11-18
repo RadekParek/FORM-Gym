@@ -1,0 +1,13 @@
+node_modules/
+dist/
+desktop-stage/
+test-results/
+playwright-report/
+*.tsbuildinfo
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/key.properties
+android/**/*.jks
+android/**/*.keystore

@@ -1,0 +1,27 @@
+# Signing credentials and machine-local Android configuration
+/signing/
+/source/android/key.properties
+/source/android/local.properties
+*.jks
+*.keystore
+
+# Dependencies and generated outputs
+/source/node_modules/
+/source/dist/
+/source/test-results/
+/source/playwright-report/
+/source/coverage/
+/source/*.tsbuildinfo
+/source/android/.gradle/
+/source/android/build/
+/source/android/app/build/
+/build/
+
+# Local environment and editor state
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
