@@ -3,10 +3,20 @@
 
 const path = require('node:path');
 const { createGroupServer } = require('../electron/groups-server.cjs');
+const { createSupabaseStore } = require('../electron/supabase-store.cjs');
 
 async function main() {
+  if (
+    process.env.RENDER &&
+    (!process.env.FORM_SUPABASE_URL || !process.env.FORM_SUPABASE_SERVICE_KEY)
+  )
+    throw new Error('Configure persistent storage before deploying the community service.');
   // Running this launcher is explicit hosting. Use a reverse proxy with HTTPS for internet access.
   const service = createGroupServer({
+    storage: createSupabaseStore(
+      process.env.FORM_SUPABASE_URL,
+      process.env.FORM_SUPABASE_SERVICE_KEY,
+    ),
     dataFile:
       process.env.FORM_GROUP_DATA_FILE ||
       path.resolve(__dirname, '../../group-server-data/groups.json'),

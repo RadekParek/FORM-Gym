@@ -4,6 +4,7 @@ import { Share } from '@capacitor/share';
 import { createInitialData, localDate, parseBackup } from './engine';
 import type { AppData } from './model';
 import { useT } from './i18n';
+import { recoverNoteDrafts } from './noteDrafts';
 
 declare global {
   interface Window {
@@ -20,7 +21,7 @@ export async function loadData(): Promise<AppData> {
   const raw = window.gymStore ? await window.gymStore.read() : localStorage.getItem(storageKey);
   if (raw === null || raw === '') return createInitialData();
   // Preserve corrupt data and expose a recovery error instead of silently overwriting it.
-  return parseBackup(raw);
+  return recoverNoteDrafts(parseBackup(raw));
 }
 
 export async function saveData(data: AppData): Promise<void> {

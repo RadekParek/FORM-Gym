@@ -4,6 +4,7 @@ const http = require('node:http');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 const { randomBytes, randomUUID, createHash } = require('node:crypto');
+const { createCommunity } = require('./community-server.cjs');
 
 const MAX_BODY = 128 * 1024;
 const LIMITS = { groups: 100, members: 100, assignments: 365, sessions: 2000, messages: 1000 };
@@ -195,6 +196,16 @@ function publicMember(member, sessions) {
     sessionCount: own.length,
     trainingDays: new Set(own.map((session) => session.date)).size,
     completedSets: own.reduce((sum, session) => sum + session.completedSets, 0),
+    completedReps: own.reduce(
+      (sum, session) =>
+        sum +
+        session.exercises.reduce(
+          (total, exercise) =>
+            total + exercise.sets.reduce((count, set) => count + (set.seconds ? 0 : set.reps), 0),
+          0,
+        ),
+      0,
+    ),
     volumeKg: Math.round(own.reduce((sum, session) => sum + session.volumeKg, 0) * 100) / 100,
   };
 }
@@ -302,7 +313,13 @@ function validateStore(store) {
 }
 
 // Constructing the service never opens a socket. The app must call start after its host action.
-function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrigins = [] } = {}) {
+function createGroupServer({
+  dataFile,
+  host = '127.0.0.1',
+  port = 0,
+  allowedOrigins = [],
+  storage,
+} = {}) {
   if (typeof dataFile !== 'string' || !dataFile)
     throw new Error('A separate group data file is required.');
   if (typeof host !== 'string' || !host || !Number.isInteger(port) || port < 0 || port > 65535)
@@ -312,7 +329,7 @@ function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrig
   const resolvedFile = path.resolve(dataFile);
   const origins = new Set(allowedOrigins);
   const rates = new Map();
-  let store = { version: 1, groups: [] };
+  let store = { version: 1, groups: [], accounts: [] };
   let queue = Promise.resolve();
   let server;
   let starting;
@@ -325,7 +342,8 @@ function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrig
         const next = structuredClone(store);
         const result = operation(next);
         if (!result.changed) return result.value;
-        await persist(resolvedFile, next);
+        if (storage) await storage.write(next);
+        else await persist(resolvedFile, next);
         store = next;
         return result.value;
       });
@@ -354,6 +372,18 @@ function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrig
     });
     response.end(JSON.stringify(value));
   }
+  const community = createCommunity({
+    readStore: () => store,
+    mutate,
+    readBody,
+    send,
+    fail,
+    object,
+    text,
+    number,
+    sessionInput,
+    sessionStats,
+  });
   async function dispatch(request, response) {
     const origin = request.headers.origin;
     if (origin) {
@@ -372,14 +402,23 @@ function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrig
     }
     const url = new URL(request.url, 'http://localhost');
     const route = url.pathname.split('/').filter(Boolean);
+    if (request.method === 'GET' && url.pathname === '/invite') {
+      response.writeHead(200, {'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer'});
+      response.end('<!doctype html><html lang="en"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Join a FORM group</title><style>body{margin:0;background:#101217;color:#f4f3ef;font:16px/1.7 system-ui;padding:48px 24px}main{max-width:520px;margin:auto;background:#191d25;border:1px solid #39414e;border-radius:18px;padding:32px}h1{line-height:1.15}p{color:#b0b7c4}input{box-sizing:border-box;width:100%;padding:14px;border:1px solid #788293;border-radius:9px;background:#252b36;color:#fff;font:14px system-ui}button{margin-top:16px;padding:14px 20px;background:#dbb77e;border:0;border-radius:9px;color:#202019;font-weight:600}</style><main><small>FORM</small><h1>Train together.</h1><p>Open FORM, choose Groups, then Join group. Paste this invitation to fill the server address automatically.</p><label for="invite">Invitation link</label><input id="invite" readonly><button id="copy">Copy invitation</button><p id="status">Keep this link private. Invitations expire after seven days.</p></main><script>const input=document.getElementById("invite");input.value=location.href;document.getElementById("copy").onclick=async()=>{try{await navigator.clipboard.writeText(input.value);document.getElementById("status").textContent="Invitation copied."}catch{input.select();document.getElementById("status").textContent="Select and copy the invitation link."}}</script></html>');
+      return;
+    }
     rate(
       request,
-      request.method === 'POST' && (url.pathname === '/v1/groups' || url.pathname === '/v1/join'),
+      request.method === 'POST' &&
+        (url.pathname === '/v1/groups' ||
+          url.pathname === '/v1/join' ||
+          url.pathname.startsWith('/v1/auth/')),
     );
     if (request.method === 'GET' && url.pathname === '/v1/health') {
       send(response, 200, { ok: true, service: 'form-groups', version: 1 });
       return;
     }
+    if (await community(request, response, url)) return;
     if (request.method === 'POST' && url.pathname === '/v1/groups') {
       const body = object(
         await readBody(request),
@@ -601,7 +640,10 @@ function createGroupServer({ dataFile, host = '127.0.0.1', port = 0, allowedOrig
     if (starting) return starting;
     starting = (async () => {
       try {
-        store = JSON.parse(await fs.readFile(resolvedFile, 'utf8'));
+        const restored = storage
+          ? await storage.read()
+          : JSON.parse(await fs.readFile(resolvedFile, 'utf8'));
+        if (restored) store = restored;
       } catch (error) {
         if (error.code !== 'ENOENT') throw error;
       }

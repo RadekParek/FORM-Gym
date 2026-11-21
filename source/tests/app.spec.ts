@@ -54,6 +54,7 @@ test('English onboarding saves measurements, experience and the final health con
   await expect(page.getByRole('heading', { name: 'Choose your language' })).toBeVisible();
   await expect(page.locator('.language-choice')).toHaveCount(5);
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.locator('.onboarding-actions button[type=submit]').click();
   await page.getByLabel(/^Name/).fill('Sam');
   await page.getByLabel(/^Age/).fill('30');
   await page.getByLabel(/^Years of training/).fill('2');
@@ -69,7 +70,7 @@ test('English onboarding saves measurements, experience and the final health con
   await page.getByRole('button', { name: 'Start', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Today' })).toBeVisible();
   const saved = await readState(page);
-  expect(saved.profile).toEqual({
+  expect(saved.profile).toMatchObject({
     ...profile,
     name: 'Sam',
     daysPerWeek: 2,
@@ -87,6 +88,7 @@ test('Slovak selection translates onboarding and persists after completing the p
   await page.getByRole('button', { name: /Slovenčina/ }).click();
   await expect(page.getByRole('heading', { name: 'Vyber si jazyk' })).toBeVisible();
   await page.getByRole('button', { name: 'Pokračovať', exact: true }).click();
+  await page.locator('.onboarding-actions button[type=submit]').click();
   await page.getByLabel(/^Meno/).fill('Alex');
   await page.getByLabel(/^Vek/).fill('66');
   await page.getByLabel(/^Roky tréningu/).fill('12');
@@ -230,10 +232,12 @@ test('free notes support editing, search, pinning, confirmed deletion and reload
     .getByRole('button', { name: 'New note', exact: true })
     .click();
   await page.getByLabel('Title', { exact: true }).fill('Technique cues');
+  if (!(await page.locator('#note-body').count())) await page.locator('.note-item').first().click();
   await page.getByLabel('Write what matters…', { exact: true }).fill('Control the lowering phase.');
   await page.getByRole('button', { name: 'Pin', exact: true }).click();
   await page.getByRole('button', { name: 'New note', exact: true }).click();
   await page.getByLabel('Title', { exact: true }).fill('Shopping');
+  if (!(await page.locator('#note-body').count())) await page.locator('.note-item').first().click();
   await page.getByLabel('Write what matters…', { exact: true }).fill('Bring a towel.');
   await page.getByLabel('Search your notes…').fill('lowering');
   await expect(page.locator('.note-item')).toHaveCount(1);
@@ -250,6 +254,7 @@ test('free notes support editing, search, pinning, confirmed deletion and reload
   expect((await readState(page)).notes.map((note) => note.title)).toEqual(['Shopping']);
   await page.reload();
   await page.locator('.sidebar').getByRole('button', { name: 'Notes', exact: true }).click();
+  await page.locator('.note-item').filter({hasText:'Shopping'}).click();
   await expect(page.getByLabel('Title', { exact: true })).toHaveValue('Shopping');
 });
 
@@ -344,6 +349,7 @@ test('backup export and import preserve notes, premium templates and appearance'
   expect(exported.settings.accent).toBe('ice');
   expect(exported.notes[0].body).toBe('Original content');
   await page.locator('.sidebar').getByRole('button', { name: 'Notes', exact: true }).click();
+  if (!(await page.locator('#note-body').count())) await page.locator('.note-item').first().click();
   await page.getByLabel('Write what matters…', { exact: true }).fill('Edited after backup');
   await openSettings(page);
   await page.locator('.backup-section summary').click();
@@ -365,6 +371,7 @@ test('younger users can continue with an optional name on a narrow phone layout'
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  await page.locator('.onboarding-actions button[type=submit]').click();
   await page.getByLabel(/^Age/).fill('14');
   await page.getByLabel(/^Weight/).fill('50');
   await page.getByLabel(/^Height/).fill('155');
@@ -669,6 +676,7 @@ for (const viewport of viewports) {
     await assertUsableLayout(page, minimumTarget);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
     await assertUsableLayout(page, minimumTarget);
+    await page.locator('.onboarding-actions button[type=submit]').click();
     await page.locator('#onboarding-age').fill('30');
     await page.locator('#onboarding-weight').fill('75');
     await page.locator('#onboarding-height').fill('175');
@@ -684,6 +692,7 @@ test('profile errors are linked to fields and receive keyboard focus after faile
   page,
 }) => {
   await page.goto('/');
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.locator('.form-error-summary')).toBeFocused();

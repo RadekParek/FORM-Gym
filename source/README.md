@@ -2,20 +2,32 @@
 
 An offline workout planner, training log, and notebook for Windows and Android.
 React and TypeScript share one interface. Electron packages Windows; Capacitor packages Android.
-Local fonts and assets are bundled. No API keys, account, telemetry, or payment provider is required.
+Local fonts and assets are bundled. Personal training requires no account or online service.
 
-Version 1.1.0 defaults to dark mode, with a light alternative, five main destinations,
-earned rank artwork and brief animations. UI decisions follow the installed
+Version 1.2.0 defaults to dark mode, with a light alternative, five main destinations,
+distinct rank colors, custom characters and brief, interruptible animations. UI decisions follow the installed
 [UI UX Pro Max skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill);
 the project-specific rules are in `design-system/MASTER.md`.
 
-Workouts and notes operate offline. Groups cache the last shared state for offline
-viewing; chat, assignments, reviews and leaderboard updates require a connection.
-In the Windows app, open Groups and choose Host on this computer, then create a
-group. Other devices on the same Wi-Fi use its server address and invitation code.
-Keep the host app open. Each group has one leader, who assigns existing plans and
-reviews explicitly shared completed sessions. Personal measurements, health details
-and free notes stay outside group payloads.
+Workouts, notes, the 45-exercise library and daily quests operate offline. The library
+includes animated schematic demonstrations, front/back muscle maps, form cues and favorites.
+Notes support categories, checklists, automatic saving, draft recovery and undo.
+One easy, medium and hard quest each day awards 40, 90 and 180 XP for completed work.
+
+Android and Windows can create local group drafts or shared online groups. Each shared
+group has one leader, assignments, chat, reviews and a leaderboard with repetitions,
+rank and XP. Invitation links include the server address. The global leaderboard uses
+optional username/password accounts and opt-in publishing. Save the account recovery key.
+Groups cache their last shared state for offline viewing; fresh updates require a connection.
+Personal measurements, health details and free notes stay outside network payloads.
+
+The distributable builds do not point at a developer's machine or include private server data.
+Online community features work only after you enter an HTTPS community server you control.
+See `docs/community-hosting.md` for the optional Render/Supabase setup; it requires owner
+accounts and has not been deployed for this project. Group play can also run locally or on Wi-Fi.
+
+For the same-Wi-Fi option, choose Host on this computer in Windows Groups and keep
+the app open. Other devices use that host's displayed server address and invitation.
 
 The service can also run with `npm run groups:server` on a persistent Node host
 behind HTTPS for internet access. See `docs/groups-server.md` for setup and limits.
@@ -28,7 +40,7 @@ If the local npm policy blocks Electron's installation script, run
 
 `npm run build` type checks and builds the app. `npm run desktop` starts the built Windows interface.
 `npm run package:win` creates `../build/GYM app.exe`.
-The desktop staging step includes only the bundled interface and Electron bridge;
+The desktop staging step includes the bundled interface, shared progression rules and Electron bridge;
 Android tools and build-time dependencies stay outside the Windows package.
 
 ## Android
@@ -50,6 +62,7 @@ with the compatibility warning suppressed in the project properties.
 `npm test` runs domain, report escaping, and native export tests.
 It also covers appearance migration and group client requests.
 `npm run test:groups` verifies the group service's permissions, persistence and scores.
+`npm run test:upgrade` covers onboarding, library, quests, notebook recovery and mobile community flows.
 `npm run test:social` checks two independent members, chat, assignments, reviews,
 leaderboard updates and the offline cache against a real local test service.
 Start `npm run dev`, then run `npm run test:e2e` for the browser interaction tests.
@@ -63,7 +76,7 @@ persistence through the actual portable EXE.
 
 ## Structure
 
-- `src/components`: onboarding, daily plans, active sessions, notebook, progress, settings and premium.
+- `src/components`: onboarding, daily plans, sessions, library, notes, progress, accounts, groups and settings.
 - `src/model.ts`: typed data and exercise catalogue.
 - `src/engine.ts`: validation, initial plans, XP, ranks and entitlement expiry.
 - `src/storage.ts`: local persistence and user-triggered export.
@@ -72,7 +85,8 @@ persistence through the actual portable EXE.
 - `android`: native host and generated Capacitor plugin integration.
 
 Internal load is kg. Timed exercise quantities use seconds or minutes.
-XP uses actual completed sets and optional progression bonuses, capped at 600 per day.
+Workout XP uses completed sets and progression bonuses, capped at 600 per day.
+Validated daily quests add up to 310 XP. Scores represent member-reported training.
 Body size, medical conditions and age do not determine rank.
 No purchase is charged in this build. A production store requires verified billing
 and server-backed entitlements; local entitlements are intended for this private build.

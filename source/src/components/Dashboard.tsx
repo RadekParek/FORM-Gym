@@ -6,17 +6,23 @@ import { exerciseText, suggestionText, useT } from '../i18n';
 import { LOCALES, kgToDisplay, type Page } from '../ui';
 import { readWorkoutDraft } from './Workout';
 import RankEmblem from './RankEmblem';
+import DailyQuests from './DailyQuests';
+import { rankStyle } from '../ranks';
 
 export default function Dashboard({
   data,
   onNavigate,
   onEditDay,
   onStart,
+  onChange,
+  notify,
 }: {
   data: AppData;
   onNavigate: (page: Page) => void;
   onEditDay: (day: number) => void;
   onStart: (plan: DayPlan) => void;
+  onChange: (data: AppData) => void;
+  notify: (message: string) => void;
 }) {
   const t = useT(data.settings.language);
   const locale = LOCALES[data.settings.language];
@@ -51,8 +57,12 @@ export default function Dashboard({
           <Flame size={18} aria-hidden="true" /> {t('streak')}: {progress.streak}
         </span>
       </header>
-      <button className="rank-summary" onClick={() => onNavigate('progress')}>
-        <RankEmblem xp={progress.xp} size={72} />
+      <button
+        className="rank-summary"
+        style={rankStyle(progress.xp, progress.rank.color)}
+        onClick={() => onNavigate('progress')}
+      >
+        <RankEmblem xp={progress.xp} size={72} color={progress.rank.color} />
         <div className="rank-summary-copy">
           <span className="muted">{t('currentRank')}</span>
           <strong>{progress.rank.name}</strong>
@@ -128,6 +138,7 @@ export default function Dashboard({
           </div>
         )}
       </section>
+      <DailyQuests data={data} onChange={onChange} notify={notify} />
       <section className="week-section">
         <div className="section-heading">
           <h2>{t('weekSchedule')}</h2>

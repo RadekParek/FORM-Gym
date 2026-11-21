@@ -103,6 +103,8 @@ test('final portable executable opens, saves an isolated profile and restores it
     await expect(page.getByRole('heading', { name: 'Choose your language' })).toBeVisible();
     await expect(page.locator('.language-choice')).toHaveCount(5);
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page.getByRole('textbox', { name: /^Username/ }).fill('portable_qa');
+    await page.locator('.onboarding-actions button[type=submit]').click();
     await page.getByLabel(/^Name/).fill('Portable QA');
     await page.getByLabel(/^Age/).fill('30');
     await page.getByLabel(/^Years of training/).fill('2');
@@ -134,7 +136,7 @@ test('final portable executable opens, saves an isolated profile and restores it
 
     launched = await launchPortable(9332);
     await expect(launched.page.getByRole('heading', { name: 'Today' })).toBeVisible();
-    await expect(launched.page.locator('.profile-mini')).toContainText('Portable QA');
+    await expect(launched.page.locator('.profile-mini')).toContainText('@portable_qa');
     const saved = JSON.parse(await readFile(path.join(profileDirectory, 'training.json'), 'utf8'));
     expect(saved.profile).toMatchObject({
       name: 'Portable QA',

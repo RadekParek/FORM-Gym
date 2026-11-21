@@ -1,21 +1,39 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "release": "https://github.com/RadekParek/FORM-Gym/releases/tag/v1.2.0",
   "artifacts": {
     "windows": {
       "file": "GYM app.exe",
-      "sha256": "f7deb1564d760d5fbb658dc5153b80dae19ac4d81bfbfca96d4d6dfc63518104",
-      "platform": "Windows x64",
-      "signature": "unsigned"
+      "sha256": "b1d3ab49be65be98961bbc489db1c7c86b18b9533d0a05bbef206a519d729e91",
+      "platform": "Windows x64 portable",
+      "signature": "unsigned",
+      "version": "1.2.0"
     },
     "android": {
       "file": "FORM Gym.apk",
-      "sha256": "55a1f558406ec6f94c6a577a459da4e805b0e4455b8283937fa3dac9f7554aa1",
-      "minAndroid": "6.0",
-      "signature": "locally signed; signing key intentionally private"
+      "sha256": "0347d95303133ad0e01dc2a38664addb3039f5c22d34bd11f5dc68f394bb230c",
+      "platform": "Android 6.0+",
+      "versionCode": 4,
+      "versionName": "1.2.0",
+      "signature": "locally signed; signing key intentionally private; signer matches v1.1.0"
+    },
+    "source": {
+      "file": "FORM-source.zip",
+      "sha256": "1f09cdc9e08067009a52984a0541b3ef1d223765c6ee52782fdf68b6dcb7e0d4"
     }
   },
+  "checks": {
+    "webBuild": "passed",
+    "unitTests": "47 passed",
+    "groupServiceTests": "12 passed",
+    "androidReleaseBuild": "passed with Java 21 and the local signing configuration",
+    "previewCapture": "passed; dashboard, progress, groups, and mobile screenshots captured",
+    "androidEmulatorRuntime": "not run; emulator was unavailable"
+  },
   "notes": [
-    "Existing v1.1.0 binaries were selected for release; this record does not claim a fresh rebuild or runtime validation.",
-    "Future Android updates must use the original private release key."
+    "Windows and Android release artifacts were rebuilt from the v1.2.0 source.",
+    "Released builds contain no machine-specific community server URL or local server data.",
+    "Future Android updates require the original private signing key.",
+    "The Windows executable is unsigned."
   ]
 }

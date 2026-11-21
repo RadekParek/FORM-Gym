@@ -12,6 +12,7 @@ await rm(stage, { recursive: true, force: true });
 await mkdir(stage);
 await cp(join(root, 'dist'), join(stage, 'dist'), { recursive: true });
 await cp(join(root, 'electron'), join(stage, 'electron'), { recursive: true });
+await cp(join(root, 'shared'), join(stage, 'shared'), { recursive: true });
 await writeFile(
   join(stage, 'package.json'),
   JSON.stringify(

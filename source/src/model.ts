@@ -1,8 +1,22 @@
 export type Language = 'en' | 'sk' | 'cs' | 'de' | 'es';
 export type Goal = 'strength' | 'muscle' | 'fitness';
+import { PUBLIC_RANKS, type QuestTier, type QuestLevel } from '../shared/progression.mjs';
+
+export interface Avatar {
+  skin: number;
+  hair: number;
+  shirt: number;
+}
+export interface QuestClaim {
+  date: string;
+  tier: QuestTier;
+  level: QuestLevel;
+}
 
 export interface Profile {
   name: string;
+  username?: string;
+  avatar?: Avatar;
   age: number;
   weight: number;
   height: number;
@@ -56,6 +70,7 @@ export interface Note {
   body: string;
   updatedAt: string;
   pinned: boolean;
+  category?: 'free' | 'training' | 'recovery';
 }
 export interface Premium {
   until: string | null;
@@ -80,6 +95,8 @@ export interface AppData {
   premium: Premium;
   bodyLogs: { date: string; weight: number }[];
   templates: { id: string; name: string; plan: DayPlan }[];
+  questClaims?: QuestClaim[];
+  favorites?: string[];
 }
 
 export const CONDITIONS = [
@@ -331,25 +348,13 @@ export interface Rank {
   name: string;
   minXp: number;
   subtitle: string;
+  color?: string;
 }
-export const RANKS: Rank[] = [
-  { name: 'First Rep', minXp: 0, subtitle: 'Every beginning counts.' },
-  { name: 'Foundation', minXp: 800, subtitle: 'Building the habit.' },
-  { name: 'Regular', minXp: 2500, subtitle: 'Showing up, week after week.' },
-  { name: 'Challenger', minXp: 6000, subtitle: 'A stronger routine.' },
-  { name: 'Athlete', minXp: 12000, subtitle: 'Consistency is your strength.' },
-  { name: 'Iron Elite', minXp: 22000, subtitle: 'Training with intention.' },
-  { name: 'Champion', minXp: 36000, subtitle: 'Effort that lasts.' },
-  { name: 'Legend', minXp: 55000, subtitle: 'A remarkable training journey.' },
-  {
-    name: 'Mr. Olympia',
-    minXp: 100000,
-    subtitle: 'The highest standard training badge.',
-  },
-];
+export const RANKS: Rank[] = PUBLIC_RANKS;
 
 export const EXTENDED_RANK: Rank = {
   name: 'ROBO!',
   minXp: 180000,
   subtitle: 'Beyond the ordinary.',
+  color: '#9de3ee',
 };

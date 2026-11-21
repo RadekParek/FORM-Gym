@@ -1,16 +1,19 @@
 import { RANKS } from '../model';
+import { rankStyle } from '../ranks';
 
 interface Props {
   xp: number;
   size?: number;
+  color?: string;
 }
 
 /** A decorative rank marker. Its surrounding text carries the accessible rank name. */
-export default function RankEmblem({ xp, size = 96 }: Props) {
+export default function RankEmblem({ xp, size = 96, color }: Props) {
   const tier = Math.max(1, RANKS.filter((rank) => Number.isFinite(xp) && xp >= rank.minXp).length);
   return (
     <svg
       className="rank-emblem"
+      style={rankStyle(xp, color)}
       data-tier={tier}
       data-count={RANKS.length}
       width={size}

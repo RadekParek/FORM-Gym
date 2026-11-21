@@ -7,6 +7,7 @@ import { LOCALES, kgToDisplay, displayToKg } from '../ui';
 import { exportTrainingReport } from '../report';
 import ShareCard from './ShareCard';
 import RankEmblem from './RankEmblem';
+import { rankStyle } from '../ranks';
 
 interface Props {
   data: AppData;
@@ -31,8 +32,12 @@ function CurrentRankCard({
   const locale = LOCALES[data.settings.language];
   const remaining = progress.nextRank ? Math.max(0, progress.nextRank.minXp - progress.xp) : 0;
   return (
-    <section className="current-rank-card" aria-label={t('currentRank')}>
-      <RankEmblem xp={progress.xp} size={112} />
+    <section
+      className="current-rank-card"
+      style={rankStyle(progress.xp, progress.rank.color)}
+      aria-label={t('currentRank')}
+    >
+      <RankEmblem xp={progress.xp} size={112} color={progress.rank.color} />
       <div className="current-rank-copy">
         <p className="muted">{t('currentRank')}</p>
         <h2>{progress.rank.name}</h2>
@@ -484,9 +489,10 @@ export default function Progress({ data, onChange, notify }: Props) {
               <li
                 className={`rank-step rank-tile ${progress.xp >= rank.minXp ? 'earned' : 'locked'} ${rank.name === progress.rank.name ? 'rank-current current' : ''}`}
                 key={rank.name}
+                style={rankStyle(rank.minXp, rank.color)}
                 aria-current={rank.name === progress.rank.name ? 'step' : undefined}
               >
-                <RankEmblem xp={rank.minXp} size={56} />
+                <RankEmblem xp={rank.minXp} size={56} color={rank.color} />
                 <div>
                   <strong>{rank.name}</strong>
                   <small>{rank.minXp.toLocaleString(locale)} XP</small>

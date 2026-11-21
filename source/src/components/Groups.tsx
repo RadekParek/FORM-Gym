@@ -4,6 +4,10 @@ import { EXERCISES, RANKS, type DayPlan, type Language, type Session } from '../
 import { localDate } from '../engine';
 import { groupT } from '../group-i18n';
 import { useT } from '../i18n';
+import { featureT } from '../feature-i18n';
+import { LOCAL_ENDPOINT } from '../localGroups';
+import { communityEndpoint } from '../community';
+import { rankStyle } from '../ranks';
 import {
   GroupApiError,
   assignmentExercises,
@@ -14,6 +18,8 @@ import {
   mutateGroup,
   saveGroupStore,
   sharedSessionInput,
+  inviteLink,
+  parseGroupInvite,
   type GroupAssignment,
   type GroupHostResult,
   type GroupState,
@@ -28,6 +34,7 @@ export interface GroupsProps {
   plans?: Record<string, DayPlan>;
   onApplyAssignment?: (assignment: GroupAssignment) => void;
   onHostServer?: () => Promise<GroupHostResult>;
+  onGlobal?: () => void;
 }
 type Tab = 'feed' | 'training' | 'leaderboard' | 'members';
 const tabs: Tab[] = ['feed', 'training', 'leaderboard', 'members'];
@@ -95,8 +102,10 @@ export default function Groups({
   plans = {},
   onApplyAssignment,
   onHostServer,
+  onGlobal,
 }: GroupsProps) {
   const t = (key: Parameters<typeof groupT>[1]) => groupT(language, key);
+  const f = (key: Parameters<typeof featureT>[1]) => featureT(language, key);
   const [store, setStore] = useState(loadGroupStore);
   const workoutT = useT(language);
   const current = store.connections.find(
@@ -111,8 +120,11 @@ export default function Groups({
   const [busy, setBusy] = useState('');
   const [tab, setTab] = useState<Tab>('feed');
   const [showConnect, setShowConnect] = useState(!current);
-  const [mode, setMode] = useState<'create' | 'join'>('join');
-  const [endpoint, setEndpoint] = useState(current?.endpoint || '');
+  const [publishing, setPublishing] = useState(false);
+  const [mode, setMode] = useState<'create' | 'join'>('create');
+  const [endpoint, setEndpoint] = useState(
+    (current?.endpoint !== LOCAL_ENDPOINT ? current?.endpoint : '') || communityEndpoint(),
+  );
   const [hostAddresses, setHostAddresses] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [memberName, setMemberName] = useState(displayName);
@@ -158,7 +170,8 @@ export default function Groups({
       (assignment) =>
         isLeader || assignment.memberIds.length === 0 || assignment.memberIds.includes(state.me.id),
     ) || [];
-  const displayedError = error || syncError;
+  const isLocal = current?.endpoint === LOCAL_ENDPOINT;
+  const displayedError = error || (current?.cached ? '' : syncError);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -339,21 +352,34 @@ export default function Groups({
       [target]?.focus();
   }
 
-  async function connect(event: FormEvent) {
-    event.preventDefault();
-    if (
-      !endpoint.trim() ||
-      !memberName.trim() ||
-      !(mode === 'create' ? name.trim() : code.trim())
-    ) {
+  async function connect(event?: FormEvent, target?: string) {
+    event?.preventDefault();
+    let address = target || endpoint;
+    let invitation = code;
+    if (mode === 'join') {
+      try {
+        const parsed = parseGroupInvite(code);
+        if (parsed) {
+          address = parsed.endpoint;
+          invitation = parsed.code;
+          setEndpoint(address);
+          setCode(invitation);
+        }
+      } catch {
+        setError(t('endpointError'));
+        return;
+      }
+    }
+    if (!address && mode === 'create' && !publishing) address = LOCAL_ENDPOINT;
+    if (!address.trim() || !memberName.trim() || !(mode === 'create' ? name.trim() : code.trim())) {
       setError(t('required'));
       return;
     }
     await run('connect', async () => {
       const result = await connectGroup(
-        endpoint,
+        address,
         mode,
-        { name, displayName: memberName, inviteCode: code, deviceId: store.deviceId },
+        { name, displayName: memberName, inviteCode: invitation, deviceId: store.deviceId },
         lifetime.current.signal,
       );
       if (lifetime.current.signal.aborted) return;
@@ -396,6 +422,11 @@ export default function Groups({
           <h1>{t('groups')}</h1>
           <p className="muted">{t('subtitle')}</p>
         </div>
+        {onGlobal && (
+          <button className="button secondary" onClick={onGlobal}>
+            {f('global')}
+          </button>
+        )}
         {current && (
           <button className="button secondary" onClick={() => setShowConnect(!showConnect)}>
             <Plus size={16} />
@@ -457,7 +488,7 @@ export default function Groups({
                 <span>{t('server')}</span>
                 <input
                   type="url"
-                  required
+                  required={mode === 'join' || publishing}
                   maxLength={300}
                   placeholder="https://…"
                   value={endpoint}
@@ -491,9 +522,17 @@ export default function Groups({
                   <span>{t('inviteCode')}</span>
                   <input
                     required
-                    maxLength={80}
+                    maxLength={512}
                     value={code}
-                    onChange={(event) => setCode(event.target.value)}
+                    onChange={(event) => {
+                      setCode(event.target.value);
+                      try {
+                        const parsed = parseGroupInvite(event.target.value);
+                        if (parsed) setEndpoint(parsed.endpoint);
+                      } catch {
+                        /* Allow a partially entered URL. */
+                      }
+                    }}
                     autoComplete="off"
                     autoCapitalize="none"
                     spellCheck={false}
@@ -502,13 +541,35 @@ export default function Groups({
               )}
             </div>
             <p className="muted" id="group-server-help">
-              {t('serverHint')}
+              {publishing
+                ? f('publishHelp')
+                : mode === 'create'
+                  ? f('localGroupHelp')
+                  : f('inviteHelp')}
             </p>
             <div className="group-actions">
               <button className="button primary" disabled={Boolean(busy)}>
                 <Users size={16} />
-                {busy === 'connect' ? t('connecting') : t(mode)}
+                {busy === 'connect'
+                  ? t('connecting')
+                  : publishing
+                    ? f('publishGroup')
+                    : mode === 'create' && !endpoint
+                      ? f('createLocal')
+                      : t(mode)}
               </button>
+              {mode === 'create' && endpoint && !publishing && (
+                <button
+                  type="button"
+                  className="button secondary"
+                  disabled={Boolean(busy)}
+                  onClick={() => {
+                    void connect(undefined, LOCAL_ENDPOINT);
+                  }}
+                >
+                  {f('createLocal')}
+                </button>
+              )}
               {onHostServer && (
                 <button
                   type="button"
@@ -551,7 +612,13 @@ export default function Groups({
             <div>
               <h2>{groupName}</h2>
               <p className={`group-status ${online ? 'connected' : 'offline'}`}>
-                {online ? t('online') : current.cached ? t('offline') : t('notLoaded')}
+                {isLocal
+                  ? f('savedDevice')
+                  : online
+                    ? t('online')
+                    : current.cached
+                      ? t('offline')
+                      : t('notLoaded')}
               </p>
               {current.lastUpdated && (
                 <p className="fine-print">
@@ -560,6 +627,20 @@ export default function Groups({
               )}
             </div>
             <div className="group-actions">
+              {isLocal && (
+                <button
+                  className="button primary"
+                  onClick={() => {
+                    setShowConnect(true);
+                    setMode('create');
+                    setPublishing(true);
+                    setName(groupName || '');
+                    setEndpoint(communityEndpoint());
+                  }}
+                >
+                  {f('publishGroup')}
+                </button>
+              )}
               {store.connections.length > 1 && (
                 <label className="field">
                   <span>{t('yourGroups')}</span>
@@ -597,6 +678,7 @@ export default function Groups({
             </div>
           ) : (
             <>
+              {!isLocal && !showConnect && <details className="panel group-address"><summary>{t('server')}</summary><label className="field"><span>{t('server')}</span><input type="url" value={endpoint} maxLength={300} onChange={(event) => setEndpoint(event.target.value)} /></label><button className="button secondary" disabled={Boolean(busy) || !endpoint || endpoint === current.endpoint} onClick={() => { void run('connect',async () => { const candidate={...current,endpoint}; const restored=await fetchGroupState(candidate,undefined,lifetime.current.signal); if (!restored) return; const oldKey=connectionKey(current); const updated={...candidate,cached:restored,lastUpdated:new Date().toISOString()}; setStore(previous=>({...previous,activeKey:connectionKey(updated),connections:previous.connections.map(connection=>connectionKey(connection)===oldKey?updated:connection)})); }); }}>{f('save')}</button></details>}
               <div className="group-tabs" role="tablist" aria-label={t('groups')}>
                 {tabs.map((value, index) => (
                   <button
@@ -622,6 +704,7 @@ export default function Groups({
               >
                 {tab === 'feed' && (
                   <section className="panel group-feed">
+                    {isLocal && <p className="fine-print">{f('localChatHelp')}</p>}
                     <div
                       className="group-messages"
                       aria-live="polite"
@@ -1101,6 +1184,7 @@ export default function Groups({
                               <li
                                 className={member.id === state.me.id ? 'own' : ''}
                                 key={member.id}
+                                style={rankStyle(member.score)}
                               >
                                 <span className="position" aria-hidden="true">
                                   {index + 1}
@@ -1110,10 +1194,11 @@ export default function Groups({
                                     {member.displayName}
                                     {member.id === state.me.id ? ` · ${t('you')}` : ''}
                                   </strong>
-                                  <span className="badge">{rank.name}</span>
+                                  <span className="badge rank-label">{rank.name}</span>
                                   <p className="fine-print">
                                     {member.sessionCount} {t('workouts')} · {member.trainingDays}{' '}
-                                    {t('days')} · {member.completedSets} {t('sets')}
+                                    {t('days')} · {member.completedSets} {t('sets')} ·{' '}
+                                    {member.completedReps ?? 0} {f('reps')}
                                   </p>
                                 </div>
                                 <strong>{member.score.toLocaleString(language)} XP</strong>
@@ -1142,7 +1227,7 @@ export default function Groups({
                         ))}
                       </ul>
                     )}
-                    {isLeader && (
+                    {isLeader && !isLocal && (
                       <section className="group-invite">
                         <h3>{t('invite')}</h3>
                         <button
@@ -1168,7 +1253,7 @@ export default function Groups({
                         </button>
                         {invite && (
                           <div className="group-invite-code">
-                            <code>{invite.inviteCode}</code>
+                            <code>{inviteLink(current.endpoint, invite.inviteCode)}</code>
                             <p className="fine-print">
                               {t('expires')}: {timestamp(invite.inviteExpiresAt)}
                             </p>
@@ -1180,7 +1265,7 @@ export default function Groups({
                                   return;
                                 }
                                 void navigator.clipboard
-                                  .writeText(invite.inviteCode)
+                                  .writeText(inviteLink(current.endpoint, invite.inviteCode))
                                   .then(() => setNotice(t('copied')))
                                   .catch(() => setError(t('copyUnavailable')));
                               }}

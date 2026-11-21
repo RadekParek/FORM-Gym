@@ -2,6 +2,7 @@ import { EXERCISES, type DayPlan, type Session } from './model';
 import { exerciseText } from './i18n';
 import type { Language } from './model';
 import { Capacitor, CapacitorHttp } from '@capacitor/core';
+import { LOCAL_ENDPOINT, localGroupRequest } from './localGroups';
 
 declare global {
   interface Window {
@@ -19,6 +20,7 @@ export interface GroupMember {
   sessionCount: number;
   trainingDays: number;
   completedSets: number;
+  completedReps?: number;
   volumeKg: number;
 }
 export interface AssignedExercise {
@@ -121,6 +123,16 @@ const storeKey = 'form-gym-groups-v1';
 const timedExercises = new Set(['plank', 'walk', 'cycle', 'rower']);
 export const connectionKey = (connection: Pick<GroupConnection, 'endpoint' | 'groupId'>) =>
   `${connection.endpoint}|${connection.groupId}`;
+export function inviteLink(endpoint: string, code: string): string {
+  return `${normalizeEndpoint(endpoint)}/invite?code=${encodeURIComponent(code)}`;
+}
+export function parseGroupInvite(value: string): { endpoint: string; code: string } | null {
+  if (!value.includes('://')) return null;
+  const url = new URL(value.trim());
+  const code = url.searchParams.get('code');
+  if (!url.pathname.endsWith('/invite') || !code || !/^[A-Za-z0-9_-]{8,128}$/.test(code)) throw new GroupApiError('endpoint');
+  return { endpoint: normalizeEndpoint(`${url.origin}${url.pathname.slice(0,-7)}`), code };
+}
 
 export class GroupApiError extends Error {
   constructor(
@@ -133,6 +145,7 @@ export class GroupApiError extends Error {
 }
 
 export function normalizeEndpoint(value: string): string {
+  if (value.trim() === LOCAL_ENDPOINT) return LOCAL_ENDPOINT;
   try {
     const url = new URL(value.trim());
     if (
@@ -341,6 +354,10 @@ export async function groupRequest<T>(
     signal?: AbortSignal;
   } = {},
 ): Promise<T> {
+  if (endpoint === LOCAL_ENDPOINT) {
+    try { return localGroupRequest(route, options.method || 'GET', options.body, options.token) as T; }
+    catch (error) { throw new GroupApiError((error as {code?: string}).code || 'storage'); }
+  }
   const controller = new AbortController();
   const abort = () => controller.abort();
   if (options.signal?.aborted) controller.abort();
@@ -514,7 +531,7 @@ export function sharedSessionInput(
     exercises: session.exercises.flatMap((exercise) => {
       const known = EXERCISES.find((item) => item.id === exercise.exerciseId);
       const sets = exercise.sets
-        .filter((set) => set.done)
+        .filter((set) => set.done && set.reps > 0)
         .map((set) =>
           timedExercises.has(exercise.exerciseId)
             ? { reps: 0, loadKg: 0, seconds: set.reps * (exercise.exerciseId === 'plank' ? 1 : 60) }

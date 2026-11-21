@@ -18,7 +18,7 @@ public class GymAppearancePlugin extends Plugin {
         getActivity().runOnUiThread(() -> {
             getContext().getSharedPreferences("form-native", Context.MODE_PRIVATE).edit().putString("appearance", appearance).apply();
             MainActivity.applyAppearance(getActivity(), appearance);
-            getBridge().getWebView().setBackgroundColor(android.graphics.Color.parseColor("light".equals(appearance) ? "#F7F7F4" : "#111713"));
+            getBridge().getWebView().setBackgroundColor(android.graphics.Color.parseColor("light".equals(appearance) ? "#F2F2F0" : "#101217"));
             call.resolve();
         });
     }

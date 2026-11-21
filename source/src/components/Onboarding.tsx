@@ -3,6 +3,10 @@ import type { AppData, Language, Profile } from '../model';
 import { CONDITIONS } from '../model';
 import { validateProfile } from '../engine';
 import { LANGUAGES, useT } from '../i18n';
+import { featureT } from '../feature-i18n';
+import CharacterPicker from './CharacterPicker';
+import AccountPanel from './AccountPanel';
+import type { Avatar } from '../model';
 
 type Props = { data: AppData; onComplete: (profile: Profile, language: Language) => void };
 type ProfileDraft = {
@@ -22,7 +26,7 @@ type FieldErrors = Partial<Record<Field, string>>;
 function profileErrors(draft: ProfileDraft): FieldErrors {
   const errors: FieldErrors = {};
   const age = Number(draft.age);
-  if (draft.name.trim().length > 60) errors.name = 'nameError';
+  if (draft.name.trim().length > 40) errors.name = 'nameError';
   if (!draft.age.trim() || !Number.isInteger(age) || age < 8 || age > 100) errors.age = 'ageError';
   if (
     !draft.weight.trim() ||
@@ -51,6 +55,14 @@ function profileErrors(draft: ProfileDraft): FieldErrors {
 
 export default function Onboarding({ data, onComplete }: Props) {
   const [step, setStep] = useState(0);
+  const [username, setUsername] = useState(
+    data.profile?.username || `athlete_${crypto.randomUUID().slice(0, 6)}`,
+  );
+  const [avatar, setAvatar] = useState<Avatar>(
+    data.profile?.avatar || { skin: 1, hair: 0, shirt: 0 },
+  );
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [identityError, setIdentityError] = useState(false);
   const [language, setLanguage] = useState<Language>(data.settings.language);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -71,14 +83,16 @@ export default function Onboarding({ data, onComplete }: Props) {
   const profile: Profile = {
     ...draft,
     name: draft.name.trim(),
+    username,
+    avatar,
     age: Number(draft.age),
     weight: Number(draft.weight),
     height: Number(draft.height),
     experience: Number(draft.experience),
   };
-  const steps = ['languageStep', 'profileStep', 'healthStep', 'readyStep'];
-  const titles = ['chooseLanguage', 'aboutTitle', 'approachTitle', 'readyTitle'];
-  const bodies = ['chooseLanguageBody', 'aboutBody', 'approachBody', 'readyBody'];
+  const steps = ['languageStep', 'character', 'profileStep', 'healthStep', 'readyStep'];
+  const titles = ['chooseLanguage', 'character', 'aboutTitle', 'approachTitle', 'readyTitle'];
+  const bodies = ['chooseLanguageBody', 'characterBody', 'aboutBody', 'approachBody', 'readyBody'];
   const fields: {
     key: NumericField;
     label: string;
@@ -112,19 +126,23 @@ export default function Onboarding({ data, onComplete }: Props) {
 
   function next(event: FormEvent) {
     event.preventDefault();
-    if (step > 0) {
+    if (step === 1 && !/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+      setIdentityError(true);
+      return;
+    }
+    if (step >= 2) {
       const nextErrors = profileErrors(draft);
       if (Object.keys(nextErrors).length || validateProfile(profile)) {
         setErrors(nextErrors);
         setSubmitted(true);
-        setStep(1);
+        setStep(2);
         setFocusRequest((value) => value + 1);
         return;
       }
     }
     setErrors({});
     setSubmitted(false);
-    if (step === 3) onComplete(profile, language);
+    if (step === 4) onComplete(profile, language);
     else setStep(step + 1);
   }
 
@@ -165,16 +183,16 @@ export default function Onboarding({ data, onComplete }: Props) {
               aria-current={index === step ? 'step' : undefined}
             >
               <span>{index + 1}</span>
-              <span>{t(label)}</span>
+              <span>{label === 'character' ? featureT(language, 'character') : t(label)}</span>
             </li>
           ))}
         </ol>
         <form onSubmit={next} noValidate className="onboarding-form">
           <header className="onboarding-heading">
             <h1 ref={headingRef} tabIndex={-1}>
-              {t(titles[step])}
+              {step === 1 ? featureT(language, 'character') : t(titles[step])}
             </h1>
-            <p>{t(bodies[step])}</p>
+            <p>{step === 1 ? featureT(language, 'characterBody') : t(bodies[step])}</p>
           </header>
           {submitted && errorEntries.length > 1 && (
             <div ref={errorRef} className="form-error-summary" tabIndex={-1} role="alert">
@@ -218,6 +236,48 @@ export default function Onboarding({ data, onComplete }: Props) {
               </div>
             )}
             {step === 1 && (
+              <div className="identity-step">
+                <CharacterPicker avatar={avatar} onChange={setAvatar} language={language} />
+                <label className="field">
+                  <span>{featureT(language, 'username')}</span>
+                  <input
+                    value={username}
+                    maxLength={20}
+                    autoComplete="username"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    onChange={(event) => {
+                      setUsername(event.target.value);
+                      setIdentityError(false);
+                    }}
+                    aria-invalid={identityError}
+                  />
+                  <small>{featureT(language, 'usernameHint')}</small>
+                </label>
+                {identityError && (
+                  <p className="field-error" role="alert">
+                    {featureT(language, 'usernameHint')}
+                  </p>
+                )}
+                <button
+                  type="button"
+                  className="button ghost"
+                  onClick={() => setAccountOpen(!accountOpen)}
+                >
+                  {featureT(language, 'signIn')} / {featureT(language, 'signUp')}
+                </button>
+                {accountOpen && (
+                  <AccountPanel
+                    data={{ ...data, profile }}
+                    onSigned={(user) => {
+                      setUsername(user.username);
+                      setAvatar(user.avatar);
+                    }}
+                  />
+                )}
+              </div>
+            )}
+            {step === 2 && (
               <div className="onboarding-fields">
                 <div className="field field-wide">
                   <label htmlFor="onboarding-name">
@@ -225,7 +285,7 @@ export default function Onboarding({ data, onComplete }: Props) {
                   </label>
                   <input
                     id="onboarding-name"
-                    maxLength={60}
+                    maxLength={40}
                     autoComplete="given-name"
                     value={draft.name}
                     onBlur={() => validateField('name')}
@@ -269,7 +329,7 @@ export default function Onboarding({ data, onComplete }: Props) {
                 ))}
               </div>
             )}
-            {step === 2 && (
+            {step === 3 && (
               <>
                 <fieldset className="goal-fieldset">
                   <legend>{t('goal')}</legend>
@@ -333,7 +393,7 @@ export default function Onboarding({ data, onComplete }: Props) {
                 )}
               </>
             )}
-            {step === 3 && (
+            {step === 4 && (
               <>
                 <dl className="onboarding-summary">
                   <div>
@@ -383,7 +443,7 @@ export default function Onboarding({ data, onComplete }: Props) {
               <span />
             )}
             <button type="submit" className="button primary">
-              {t(step === 3 ? 'complete' : 'next')}
+              {t(step === 4 ? 'complete' : 'next')}
             </button>
           </div>
           <p className="privacy-note">{t('privacyNote')}</p>

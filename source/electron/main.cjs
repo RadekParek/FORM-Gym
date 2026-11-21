@@ -70,7 +70,7 @@ app.whenReady().then(async () => {
     if (!allowed(event) || !['dark', 'light'].includes(appearance))
       throw new Error('Invalid appearance');
     nativeTheme.themeSource = appearance;
-    window.setBackgroundColor(appearance === 'dark' ? '#111713' : '#f7f7f4');
+    window.setBackgroundColor(appearance === 'dark' ? '#101217' : '#f2f2f0');
   });
   ipcMain.handle('groups:host', async (event) => {
     if (!allowed(event)) throw new Error('Invalid sender');
@@ -107,7 +107,7 @@ app.whenReady().then(async () => {
     minWidth: 380,
     minHeight: 620,
     title: 'FORM · GYM app',
-    backgroundColor: appearance === 'dark' ? '#111713' : '#f7f7f4',
+    backgroundColor: appearance === 'dark' ? '#101217' : '#f2f2f0',
     autoHideMenuBar: true,
     icon: path.join(__dirname, '../dist/icon.png'),
     webPreferences: {

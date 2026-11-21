@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 'react';
 import {
   BookOpen,
   CalendarDays,
+  Dumbbell,
   Check,
   Home,
   Settings2,
@@ -24,25 +25,30 @@ import { loadData, saveData } from './storage';
 import { useT, localizeStarterPlans } from './i18n';
 import type { Page } from './ui';
 import Onboarding from './components/Onboarding';
-import Planner from './components/Planner';
 import Workout from './components/Workout';
-import Notes from './components/Notes';
 import Dashboard from './components/Dashboard';
-import Progress from './components/Progress';
 import PremiumPage from './components/PremiumPage';
 import SettingsPage from './components/SettingsPage';
-import Groups from './components/Groups';
+import UserAvatar from './components/UserAvatar';
+import { featureT } from './feature-i18n';
 import { groupT } from './group-i18n';
 import { applyNativeAppearance } from './nativeTheme';
 import { EXERCISES } from './model';
 import { uid } from './engine';
 import type { GroupAssignment } from './groups';
+import { NOTE_DRAFT_KEY } from './noteDrafts';
+const Planner = lazy(() => import('./components/Planner'));
+const Notes = lazy(() => import('./components/NotesEditor'));
+const Progress = lazy(() => import('./components/Progress'));
+const Groups = lazy(() => import('./components/Groups'));
+const Library = lazy(() => import('./components/Library'));
+const Community = lazy(() => import('./components/Community'));
 
 const NAV = [
   { id: 'dashboard', icon: Home },
   { id: 'planner', icon: CalendarDays },
+  { id: 'library', icon: Dumbbell },
   { id: 'notes', icon: BookOpen },
-  { id: 'progress', icon: TrendingUp },
   { id: 'groups', icon: Users },
 ] as const;
 function Brand() {
@@ -101,8 +107,18 @@ export default function App() {
     [],
   );
   const change = (next: AppData) => {
+    if (data && (next.questClaims?.length || 0) > (data.questClaims?.length || 0)) {
+      const before = getProgress(data).rank.name;
+      const after = getProgress(next).rank.name;
+      if (after !== before) setRankCelebration(after);
+    }
     setData(next);
-    saveData(next).catch(() => notify(t('saveFailed')));
+    return saveData(next)
+      .then(() => true)
+      .catch(() => {
+        notify(t('saveFailed'));
+        return false;
+      });
   };
   const navigate = (next: Page) => {
     setActivePlan(null);
@@ -160,7 +176,8 @@ export default function App() {
     try {
       if (file.size > 8_000_000) throw new Error('size');
       const value = parseBackup(await file.text());
-      change(value);
+      if (!(await change(value))) return;
+      localStorage.removeItem(NOTE_DRAFT_KEY);
       setLoadError(false);
       navigate('dashboard');
       notify(t('backupImported'));
@@ -219,7 +236,21 @@ export default function App() {
       />
     );
   return (
-    <div className="app-shell">
+    <div
+      className="app-shell"
+      onPointerDownCapture={(event) => {
+        const button = (event.target as HTMLElement).closest<HTMLElement>('button');
+        if (button) {
+          const bounds = button.getBoundingClientRect();
+          button.style.setProperty('--press-x', `${event.clientX - bounds.left}px`);
+          button.style.setProperty('--press-y', `${event.clientY - bounds.top}px`);
+        }
+        document.documentElement.style.setProperty(
+          '--dialog-origin',
+          `${(event.clientX / innerWidth) * 100}% ${(event.clientY / innerHeight) * 100}%`,
+        );
+      }}
+    >
       <a className="skip-link" href="#main-content">
         {t('training')}
       </a>
@@ -235,18 +266,35 @@ export default function App() {
             >
               <Icon size={18} aria-hidden="true" />
               <span>
-                {id === 'groups'
-                  ? groupT(data.settings.language, 'groups')
-                  : t(id === 'dashboard' ? 'today' : id)}
+                {id === 'library'
+                  ? featureT(data.settings.language, 'library')
+                  : id === 'groups'
+                    ? groupT(data.settings.language, 'groups')
+                    : t(id === 'dashboard' ? 'today' : id)}
               </span>
             </button>
           ))}
         </nav>
         <div className="header-tools">
           <span className="profile-mini">
-            <strong>{data.profile.name}</strong>
+            <UserAvatar avatar={data.profile.avatar} size={32} />
+            <strong>{data.profile.username ? `@${data.profile.username}` : data.profile.name}</strong>
             {isPremium(data) && <small>FORM PLUS</small>}
           </span>
+          <button
+            className="icon-button header-progress"
+            onClick={() => navigate('progress')}
+            aria-label={t('progress')}
+          >
+            <TrendingUp size={20} aria-hidden="true" />
+          </button>
+          <button
+            className="icon-button"
+            onClick={() => navigate('community')}
+            aria-label={featureT(data.settings.language, 'account')}
+          >
+            <Users size={20} aria-hidden="true" />
+          </button>
           <button
             className="icon-button"
             onClick={() => navigate('settings')}
@@ -262,6 +310,20 @@ export default function App() {
           <div className="header-tools">
             <button
               className="icon-button"
+              onClick={() => navigate('progress')}
+              aria-label={t('progress')}
+            >
+              <TrendingUp size={20} aria-hidden="true" />
+            </button>
+            <button
+              className="icon-button"
+              onClick={() => navigate('community')}
+              aria-label={featureT(data.settings.language, 'account')}
+            >
+              <UserAvatar avatar={data.profile.avatar} size={30} />
+            </button>
+            <button
+              className="icon-button"
               onClick={() => navigate('settings')}
               aria-label={t('settings')}
             >
@@ -270,63 +332,76 @@ export default function App() {
           </div>
         </header>
         <main className="main-content" id="main-content" key={activePlan ? 'active' : page}>
-          {activePlan ? (
-            <Workout
-              data={data}
-              plan={activePlan}
-              onFinish={finish}
-              onCancel={() => setActivePlan(null)}
-            />
-          ) : (
-            <>
-              {page === 'dashboard' && (
-                <Dashboard
-                  data={data}
-                  onNavigate={navigate}
-                  onEditDay={editDay}
-                  onStart={setActivePlan}
-                />
-              )}
-              {page === 'planner' && (
-                <Planner
-                  data={data}
-                  initialDay={plannerDay}
-                  onChange={change}
-                  onStart={setActivePlan}
-                  notify={notify}
-                />
-              )}
-              {page === 'notes' && <Notes data={data} onChange={change} notify={notify} />}
-              {page === 'groups' && (
-                <Groups
-                  language={data.settings.language}
-                  sessions={data.sessions}
-                  displayName={data.profile.name}
-                  plans={data.plans}
-                  onApplyAssignment={applyAssignment}
-                  onHostServer={window.gymGroups ? () => window.gymGroups!.host() : undefined}
-                />
-              )}
-              {page === 'progress' && (
-                <Progress
-                  data={data}
-                  onChange={change}
-                  onPremium={() => navigate('premium')}
-                  notify={notify}
-                />
-              )}
-              {page === 'premium' && <PremiumPage data={data} />}
-              {page === 'settings' && (
-                <SettingsPage
-                  data={data}
-                  onChange={change}
-                  onImport={importBackup}
-                  onPremium={() => navigate('premium')}
-                  notify={notify}
-                />
-              )}
-            </>
-          )}
+          <Suspense
+            fallback={
+              <div className="page loading" role="status">
+                <span className="loader" />
+              </div>
+            }
+          >
+            {activePlan ? (
+              <Workout
+                data={data}
+                plan={activePlan}
+                onFinish={finish}
+                onCancel={() => setActivePlan(null)}
+              />
+            ) : (
+              <>
+                {page === 'dashboard' && (
+                  <Dashboard
+                    data={data}
+                    onNavigate={navigate}
+                    onEditDay={editDay}
+                    onStart={setActivePlan}
+                    onChange={change}
+                    notify={notify}
+                  />
+                )}
+                {page === 'planner' && (
+                  <Planner
+                    data={data}
+                    initialDay={plannerDay}
+                    onChange={change}
+                    onStart={setActivePlan}
+                    notify={notify}
+                  />
+                )}
+                {page === 'notes' && <Notes data={data} onChange={change} notify={notify} />}
+                {page === 'library' && <Library data={data} onChange={change} notify={notify} />}
+                {page === 'community' && <Community data={data} onChange={change} />}
+                {page === 'groups' && (
+                  <Groups
+                    language={data.settings.language}
+                    sessions={data.sessions}
+                  displayName={data.profile.username || data.profile.name || 'Athlete'}
+                    plans={data.plans}
+                    onApplyAssignment={applyAssignment}
+                    onHostServer={window.gymGroups ? () => window.gymGroups!.host() : undefined}
+                    onGlobal={() => navigate('community')}
+                  />
+                )}
+                {page === 'progress' && (
+                  <Progress
+                    data={data}
+                    onChange={change}
+                    onPremium={() => navigate('premium')}
+                    notify={notify}
+                  />
+                )}
+                {page === 'premium' && <PremiumPage data={data} />}
+                {page === 'settings' && (
+                  <SettingsPage
+                    data={data}
+                    onChange={change}
+                    onImport={importBackup}
+                    onPremium={() => navigate('premium')}
+                    notify={notify}
+                  />
+                )}
+              </>
+            )}
+          </Suspense>
         </main>
       </div>
       {toast && (

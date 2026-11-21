@@ -1,6 +1,6 @@
 {
   "name": "form-gym",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "description": "FORM - thoughtful offline workout planning and training notes",
   "author": "GYM app",
@@ -8,16 +8,17 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
-    "test": "vitest run tests/engine.test.ts tests/report.test.ts tests/storage.test.ts tests/appearance.test.ts tests/groups-client.test.ts",
+    "test": "vitest run tests/engine.test.ts tests/report.test.ts tests/storage.test.ts tests/appearance.test.ts tests/groups-client.test.ts tests/upgrade.test.ts",
     "test:social": "playwright test tests/new-social.spec.ts --workers=1",
-    "test:groups": "node --test tests/groups-server.test.cjs",
+    "test:groups": "node --test tests/groups-server.test.cjs tests/community-server.test.cjs",
     "groups:server": "node scripts/group-server.cjs",
     "test:e2e": "playwright test tests/app.spec.ts --workers=1",
     "desktop": "electron .",
     "package:win": "npm run build && node scripts/prepare-desktop.mjs && electron-builder --win portable --x64",
     "android:sync": "npm run build && cap sync android",
     "test:desktop": "playwright test tests/desktop.spec.ts --workers=1",
-    "format": "prettier --write src tests electron *.json *.ts index.html"
+    "format": "prettier --write src tests electron *.json *.ts index.html",
+    "test:upgrade": "playwright test tests/upgrade.spec.ts --workers=1"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.4",
@@ -53,6 +54,7 @@
     },
     "files": [
       "dist/**/*",
+      "shared/**/*",
       "electron/**/*",
       "package.json",
       "!**/node_modules/**/*"

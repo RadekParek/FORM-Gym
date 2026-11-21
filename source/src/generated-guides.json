@@ -1,0 +1,670 @@
+{
+  "sk": {
+    "cues": {
+      "squat": [
+        "Postavte sa s nohami okolo šírky ramien; držte celé chodidlo uzemnené.",
+        "Posaďte sa medzi boky, zatiaľ čo kolená sledujú prsty na nohách.",
+        "Odsuňte podlahu a postavte sa vysoko bez toho, aby ste si zablokovali kolená."
+      ],
+      "lunge": [
+        "Použite delený postoj s dostatočným priestorom na rovnováhu.",
+        "Pokrčte obe kolená a znížte ich priamo nadol, pričom predná päta je uzemnená.",
+        "Stlačte cez prednú nohu; použite podporu, ak je ťažká rovnováha."
+      ],
+      "step": [
+        "Použite stabilný nízky schod a položte naň celé chodidlo.",
+        "Prejdite cez olovenú nohu bez toho, aby ste skočili zo zadnej nohy.",
+        "Pomaly spúšťajte a zmeňte strany."
+      ],
+      "hinge": [
+        "Jemne sa pripevnite; držte náklad blízko a zmäknite kolená.",
+        "Posuňte boky dozadu a zároveň si zachovajte pohodlnú neutrálnu chrbticu.",
+        "Posuňte boky dopredu, aby sa postavili; vyhnite sa nakláňaniu sa hore."
+      ],
+      "bridge": [
+        "Položte nohy a držte rebrá pohodlne dole.",
+        "Pretlačte päty a zdvihnite boky.",
+        "Zastavte sa so zarovnaným trupom a stehnami; nižšie s ovládaním."
+      ],
+      "press": [
+        "Udržujte nohy podopreté a lopatky pohodlne opreté o lavicu.",
+        "Spustite rukoväte alebo tyč smerom k hrudníku so zápästiami naskladanými cez lakte.",
+        "Hladko stlačte nahor; vyhnite sa odskakovaniu alebo silovému rozťahovaniu lakťov."
+      ],
+      "pushup": [
+        "Nastavte ruky o niečo širšie ako ramená; v prípade potreby použite sklon.",
+        "Držte trup stabilný, keď spúšťate hrudník medzi ruky.",
+        "Odtlačte podlahu a držte lakte v pohodlnom uhle."
+      ],
+      "fly": [
+        "Použite ľahkú záťaž s mäkkým ohnutím v lakťoch.",
+        "Otvárajte ruky v oblúku, kým nepocítite pohodlné natiahnutie hrudníka.",
+        "Spojte ruky bez pokrčenia ramien alebo zmeny uhla lakťov."
+      ],
+      "pull": [
+        "Vyberte si pohodlné uchopenie; počet asistovaných opakovaní.",
+        "Pritiahnite lakte k rebrám bez švihu.",
+        "Plynule spúšťajte cez pohodlný rozsah; udržujte krk uvoľnený."
+      ],
+      "pulldown": [
+        "Nastavte stehennú podložku a sadnite si vysoko s podoprenými nohami.",
+        "Potiahnite rukoväť smerom k hornej časti hrudníka; držte tyč pred hlavou.",
+        "Nechajte ruky natiahnuť pomaly bez trhania trupu."
+      ],
+      "row": [
+        "Vystužte si trup a začnite s pohodlnými predĺženými rukami.",
+        "Vráťte lakte späť k bokom bez krčenia plecami.",
+        "Pomaly vracajte rukoväte, pričom držte trup stabilný."
+      ],
+      "facepull": [
+        "Kábel umiestnite do výšky tváre a lano držte zľahka.",
+        "Ťahajte smerom k tvári a súčasne oddeľujte ruky.",
+        "Udržujte krk uvoľnený a vráťte sa s kontrolou."
+      ],
+      "overhead": [
+        "Začnite so záťažou vo výške ramien a rebrami pohodlne dole.",
+        "Tlačte nahor v pohodlnom rozsahu bez vyklenutia spodnej časti chrbta.",
+        "Pomaly spustite do východiskovej polohy."
+      ],
+      "lateral": [
+        "Použite ľahkú záťaž a mäkké lakte.",
+        "Zdvihnite ruky širokým oblúkom do pohodlnej výšky ramien.",
+        "Spúšťajte pomaly a vyhýbajte sa hojdaniu alebo krčeniu plecami."
+      ],
+      "curl": [
+        "Nadlaktie držte blízko bokov.",
+        "Ohnite lakte bez švihu trupu.",
+        "Pomaly spúšťajte závažie, kým sa vaše ruky pohodlne nenatiahnu."
+      ],
+      "triceps": [
+        "Udržujte horné ramená stabilné; používajte pohodlnú polohu ramien.",
+        "Narovnajte lakte, pričom zápästia držte neutrálne.",
+        "Pomaly ohnite lakte, aby ste sa vrátili späť; vyhnite sa pohybu celého ramena."
+      ],
+      "plank": [
+        "Umiestnite lakte pod ramená; v prípade potreby použite kolená na podlahu.",
+        "Udržujte trup stabilný a normálne dýchajte.",
+        "Ukončite zádrž skôr, ako sa zmení vaša poloha alebo budete musieť zadržať dych."
+      ],
+      "deadbug": [
+        "Ľahnite si na chrbát s rukami nadvihnutými a kolenami pohodlne pokrčenými.",
+        "Natiahnite jednu ruku a opačnú nohu preč bez vyklenutia chrbta.",
+        "Vráťte sa pomaly a striedajte strany."
+      ],
+      "birddog": [
+        "Začnite na rukách a kolenách s pohodlnou neutrálnou chrbticou.",
+        "Natiahnite jednu ruku a opačnú nohu preč, pričom držte boky v rovine.",
+        "Vráťte sa pomaly a striedajte strany."
+      ],
+      "pallof": [
+        "Postavte sa bokom k ľahkému káblu alebo odporu.",
+        "Ruky zatlačte dopredu, pričom vzdorujte rotácii.",
+        "Pomaly vráťte ruky späť; opakujte otočením opačným smerom."
+      ],
+      "crunch": [
+        "Ľahnite si na chrbát s pokrčenými kolenami a podoprenými chodidlami.",
+        "Zdvihnite ramená o malú vzdialenosť bez toho, aby ste ťahali krk.",
+        "Pomaly spúšťajte; udržujte pohyb malý a kontrolovaný."
+      ],
+      "legpress": [
+        "Nastavte sedadlo tak, aby spodná časť chrbta zostala podopretá.",
+        "Ohnite kolená v línii prstov na nohách v pohodlnom rozsahu.",
+        "Odtlačte plošinu bez toho, aby ste si zaistili kolená."
+      ],
+      "legextension": [
+        "Zarovnajte otočný čap stroja s kolenami a nastavte chránič holene.",
+        "Hladko narovnajte kolená v pohodlnom rozsahu.",
+        "Pomaly spúšťajte; vyhýbajte sa kopaniu bremena."
+      ],
+      "legcurl": [
+        "Zarovnajte kolená s otočným čapom stroja a majte podopreté boky.",
+        "Pokrčte kolená, aby ste podložku pritiahli smerom k sedadlu.",
+        "Vráťte sa pomaly bez zdvíhania bokov."
+      ],
+      "calf": [
+        "Postavte sa so stabilnou oporou a chodidlami smerujúcimi pohodlne dopredu.",
+        "Postavte sa na brušká chodidiel bez prevrátenia členkov.",
+        "Spúšťajte pomaly cez pohodlný rozsah členkov."
+      ],
+      "walk": [
+        "Zvoľte si tempo, v ktorom sa budete môcť pohodlne rozprávať.",
+        "Používajte prirodzené kroky a uvoľnený pohyb paží.",
+        "Budujte čas postupne a podľa potreby spomaľte."
+      ],
+      "cycle": [
+        "Nastavte sedadlo tak, aby vaše koleno zostalo mierne ohnuté dole.",
+        "Pedál hladko s uvoľneným držaním a pohodlným odporom.",
+        "Udržujte normálne dýchanie a postupne zvyšujte trvanie."
+      ],
+      "rower": [
+        "Začnite s pokrčenými kolenami, stabilným trupom a pohodlne vystretými rukami.",
+        "Jazdite nohami, potom sa mierne nakloňte a posuňte rukoväť smerom k rebrám.",
+        "Najprv vráťte ruky, potom trup, potom kolená."
+      ],
+      "rearFly": [
+        "Predkloň sa v bedrách, udržuj trup stabilný a použi ľahkú záťaž.",
+        "Zdvihni paže do strán s mierne pokrčenými lakťami.",
+        "Pomaly spúšťaj paže bez krčenia ramien alebo švihu."
+      ],
+      "tricepsOverhead": [
+        "Drž pohodlnú záťaž nad hlavou a udržuj nadlaktia stabilné.",
+        "Pokrč lakte a spusti záťaž za hlavu.",
+        "Plynulo vystri lakte bez prehýbania krížov."
+      ]
+    },
+    "muscles": {
+      "chest": "Hrudník",
+      "lats": "Široký sval chrbta",
+      "upperBack": "Horná časť chrbta",
+      "shoulders": "Ramená",
+      "biceps": "Biceps",
+      "triceps": "Triceps",
+      "core": "Stred tela",
+      "quads": "Predné stehná",
+      "hamstrings": "Zadné stehná",
+      "glutes": "Sedacie svaly",
+      "calves": "Lýtka"
+    }
+  },
+  "cs": {
+    "cues": {
+      "squat": [
+        "Postavte se s nohama na šířku ramen; držte celou nohu na zemi.",
+        "Posaďte se mezi boky, zatímco kolena sledují prsty u nohou.",
+        "Odsuňte podlahu a postavte se vysoko, aniž byste si zablokovali kolena."
+      ],
+      "lunge": [
+        "Použijte dělený postoj s dostatkem prostoru pro rovnováhu.",
+        "Ohněte obě kolena a spusťte je rovně dolů s přední patou uzemněnou.",
+        "Stiskněte přední nohu; použijte podporu, pokud je rovnováha obtížná."
+      ],
+      "step": [
+        "Použijte stabilní, nízký schod a položte na něj celé chodidlo.",
+        "Projeďte přední nohou bez skákání z zadní nohy.",
+        "Pomalu spusťte dolů a vyměňte strany."
+      ],
+      "hinge": [
+        "Jemně se zapřete; držte náklad blízko a změkčte kolena.",
+        "Posuňte boky dozadu a přitom si udržujte pohodlnou neutrální páteř.",
+        "Posuňte boky dopředu, abyste se postavili; vyvarujte se naklánění v horní části."
+      ],
+      "bridge": [
+        "Položte nohy a držte žebra pohodlně dole.",
+        "Protlačte paty a zvedněte boky.",
+        "Zastavte se s vyrovnaným trupem a stehny; nižší s ovládáním."
+      ],
+      "press": [
+        "Udržujte nohy podepřené a lopatky pohodlně opřené o lavici.",
+        "Spusťte rukojeti nebo tyč směrem k hrudi se zápěstími naskládanými přes lokty.",
+        "Hladce zatlačte nahoru; vyvarujte se poskakování nebo násilí v loktech."
+      ],
+      "pushup": [
+        "Nastavte ruce mírně širší než ramena; v případě potřeby použijte sklon.",
+        "Při spouštění hrudníku mezi ruce udržujte trup stabilní.",
+        "Přitlačte podlahu a udržujte lokty v pohodlném úhlu."
+      ],
+      "fly": [
+        "Použijte lehkou zátěž s měkkým ohnutím v loktech.",
+        "Otevřete paže v oblouku, dokud neucítíte pohodlné protažení hrudníku.",
+        "Spojte ruce, aniž byste krčili rameny nebo měnili úhel loktů."
+      ],
+      "pull": [
+        "Vyberte si pohodlné uchopení; počet asistovaných opakování.",
+        "Přitáhněte lokty směrem k žebrům, aniž byste se houpali.",
+        "Snižte plynule v pohodlném rozsahu; udržujte krk uvolněný."
+      ],
+      "pulldown": [
+        "Nastavte stehenní podložku a sedněte si vysoko s podepřenými chodidly.",
+        "Zatáhněte za rukojeť směrem k horní části hrudníku; držte laťku před hlavou.",
+        "Nechte své paže pomalu natahovat, aniž byste škubali trupem."
+      ],
+      "row": [
+        "Zpevněte trup a začněte s pohodlnými nataženými pažemi.",
+        "Přiveďte lokty zpět k bokům, aniž byste krčili rameny.",
+        "Vraťte rukojeti pomalu a přitom držte trup v klidu."
+      ],
+      "facepull": [
+        "Umístěte kabel blízko výšky obličeje a lano lehce držte.",
+        "Zatáhněte směrem k obličeji a zároveň oddalujte ruce.",
+        "Udržujte krk uvolněný a vraťte se s kontrolou."
+      ],
+      "overhead": [
+        "Začněte se zátěží ve výšce ramen a žebry pohodlně dolů.",
+        "Zatlačte nahoru v pohodlném rozsahu bez prohnutí spodní části zad.",
+        "Spusťte pomalu do výchozí polohy."
+      ],
+      "lateral": [
+        "Použijte lehkou zátěž a měkké lokty.",
+        "Zvedněte paže širokým obloukem do pohodlné výšky ramen.",
+        "Spouštějte pomalu a vyhněte se houpání nebo krčení ramen."
+      ],
+      "curl": [
+        "Nadloktí držte blízko boků.",
+        "Ohněte lokty, aniž byste kývali trupem.",
+        "Pomalu snižujte závaží, dokud nebudou vaše paže pohodlně natažené."
+      ],
+      "triceps": [
+        "Udržujte nadloktí stabilní; použijte pohodlnou polohu ramen.",
+        "Narovnejte lokty a udržujte zápěstí neutrální.",
+        "Pro návrat pomalu ohněte lokty; vyhněte se pohybu celé paže."
+      ],
+      "plank": [
+        "Umístěte lokty pod ramena; v případě potřeby použijte kolena na podlahu.",
+        "Udržujte trup v klidu a dýchejte normálně.",
+        "Ukončete zádrž dříve, než se změní vaše držení těla nebo budete muset zadržet dech."
+      ],
+      "deadbug": [
+        "Lehněte si na záda s rukama nahoře a koleny pohodlně pokrčenými.",
+        "Natáhněte jednu paži a opačnou nohu pryč, aniž byste prohnuli záda.",
+        "Vraťte se pomalu a vystřídejte strany."
+      ],
+      "birddog": [
+        "Začněte na rukou a kolenou s pohodlnou neutrální páteří.",
+        "Natáhněte jednu paži a opačnou nohu pryč a přitom držte boky v rovině.",
+        "Vraťte se pomalu a vystřídejte strany."
+      ],
+      "pallof": [
+        "Postavte se bokem ke světelnému kabelu nebo odporu.",
+        "Zatlačte ruce dopředu a snažte se bránit otáčení.",
+        "Pomalu vraťte ruce zpět; opakujte čelem opačným směrem."
+      ],
+      "crunch": [
+        "Lehněte si na záda s pokrčenými koleny a podepřenými chodidly.",
+        "Lift the shoulders a small distance without pulling your neck.",
+        "Spusťte pomalu; udržujte pohyb malý a kontrolovaný."
+      ],
+      "legpress": [
+        "Nastavte sedadlo tak, aby vaše spodní část zad zůstala podepřená.",
+        "Bend the knees in line with your toes through a comfortable range.",
+        "Odtlačte plošinu, aniž byste si zablokovali kolena."
+      ],
+      "legextension": [
+        "Vyrovnejte čep stroje s koleny a nastavte chránič holeně.",
+        "Straighten the knees smoothly through a comfortable range.",
+        "Spusťte pomalu; vyvarujte se kopnutí nákladu."
+      ],
+      "legcurl": [
+        "Vyrovnejte kolena s čepem stroje a mějte podepřené boky.",
+        "Ohněte kolena a přitáhněte podložku směrem k sedadlu.",
+        "Vraťte se pomalu, aniž byste zvedli boky."
+      ],
+      "calf": [
+        "Postavte se s dostupnou stabilní oporou a chodidly směřujícími pohodlně dopředu.",
+        "Zvedněte se na bříška chodidel, aniž byste provalili kotníky.",
+        "Spouštějte pomalu v pohodlném rozsahu kotníků."
+      ],
+      "walk": [
+        "Zvolte si tempo, ve kterém můžete pohodlně mluvit.",
+        "Používejte přirozené kroky a uvolněné pohyby paží.",
+        "Budujte čas postupně a v případě potřeby zpomalte."
+      ],
+      "cycle": [
+        "Nastavte sedadlo tak, aby vaše koleno zůstalo mírně ohnuté dole.",
+        "Šlapejte plynule s uvolněným úchopem a pohodlným odporem.",
+        "Dýchejte normálně a postupně zvyšujte trvání."
+      ],
+      "rower": [
+        "Začněte s pokrčenými koleny, pevným trupem a pohodlně nataženými pažemi.",
+        "Jezděte nohama, pak se mírně nakloňte a přitáhněte rukojeť směrem k žebrům.",
+        "Nejprve vraťte paže, pak trup a poté kolena."
+      ],
+      "rearFly": [
+        "Předkloň se v kyčlích, udržuj trup stabilní a použij lehkou zátěž.",
+        "Zvedni paže do stran s mírně pokrčenými lokty.",
+        "Pomalu spouštěj paže bez krčení ramen nebo švihu."
+      ],
+      "tricepsOverhead": [
+        "Drž pohodlnou zátěž nad hlavou a udržuj nadloktí stabilní.",
+        "Pokrč lokty a spusť zátěž za hlavu.",
+        "Plynule narovnej lokty bez prohýbání beder."
+      ]
+    },
+    "muscles": {
+      "chest": "Hrudník",
+      "lats": "Široký sval zádový",
+      "upperBack": "Horní část zad",
+      "shoulders": "Ramena",
+      "biceps": "Biceps",
+      "triceps": "Triceps",
+      "core": "Střed těla",
+      "quads": "Přední stehna",
+      "hamstrings": "Zadní stehna",
+      "glutes": "Hýžďové svaly",
+      "calves": "Lýtka"
+    }
+  },
+  "de": {
+    "cues": {
+      "squat": [
+        "Stehen Sie mit etwa schulterbreiten Füßen; Halten Sie den ganzen Fuß auf dem Boden.",
+        "Setzen Sie sich zwischen Ihre Hüften, während Ihre Knie Ihren Zehen folgen.",
+        "Schieben Sie den Boden weg und stehen Sie aufrecht, ohne die Knie durchzudrücken."
+      ],
+      "lunge": [
+        "Verwenden Sie eine geteilte Haltung mit genügend Raum zum Ausbalancieren.",
+        "Beugen Sie beide Knie und senken Sie sich gerade nach unten, wobei die vordere Ferse auf dem Boden bleibt.",
+        "Drücken Sie durch den Vorderfuß; Verwenden Sie eine Stütze, wenn das Gleichgewicht schwierig ist."
+      ],
+      "step": [
+        "Benutzen Sie eine stabile, niedrige Stufe und stellen Sie den ganzen Fuß darauf.",
+        "Fahren Sie durch das vordere Bein, ohne vom hinteren Fuß abzuspringen.",
+        "Langsam absenken und die Seite wechseln."
+      ],
+      "hinge": [
+        "Stützen Sie sich sanft ab; Halten Sie die Last nah beieinander und machen Sie Ihre Knie weich.",
+        "Bewegen Sie Ihre Hüften nach hinten und behalten Sie dabei eine angenehme, neutrale Wirbelsäule bei.",
+        "Bewegen Sie die Hüften nach vorne, um aufzustehen. Vermeiden Sie es, sich oben zurückzulehnen."
+      ],
+      "bridge": [
+        "Stellen Sie Ihre Füße auf und halten Sie Ihre Rippen bequem unten.",
+        "Drücken Sie die Fersen durch und heben Sie die Hüften an.",
+        "Machen Sie eine Pause mit ausgerichtetem Oberkörper und Oberschenkeln. mit Kontrolle senken."
+      ],
+      "press": [
+        "Halten Sie die Füße gestützt und die Schulterblätter bequem auf der Bank.",
+        "Senken Sie die Griffe oder die Stange in Richtung Brust, wobei die Handgelenke über den Ellbogen liegen.",
+        "Sanft nach oben drücken; Vermeiden Sie es, zu hüpfen oder die Ellbogen weit auszustrecken."
+      ],
+      "pushup": [
+        "Platzieren Sie Ihre Hände etwas weiter als die Schultern; Verwenden Sie bei Bedarf eine Neigung.",
+        "Halten Sie Ihren Rumpf ruhig, während Sie die Brust zwischen Ihren Händen senken.",
+        "Drücken Sie den Boden weg und halten Sie Ihre Ellenbogen in einem bequemen Winkel."
+      ],
+      "fly": [
+        "Verwenden Sie eine leichte Belastung mit einer sanften Beugung der Ellbogen.",
+        "Öffnen Sie die Arme in einem Bogen, bis Sie eine angenehme Dehnung der Brust spüren.",
+        "Bringen Sie Ihre Hände zusammen, ohne mit den Schultern zu zucken oder den Ellenbogenwinkel zu verändern."
+      ],
+      "pull": [
+        "Wählen Sie einen bequemen Griff; Unterstützte Wiederholungen zählen.",
+        "Ziehen Sie Ihre Ellbogen zu Ihren Rippen, ohne zu schwingen.",
+        "Sanft über einen komfortablen Bereich absenken; Halten Sie den Nacken entspannt."
+      ],
+      "pulldown": [
+        "Stellen Sie das Oberschenkelpolster ein und sitzen Sie aufrecht mit gestützten Füßen.",
+        "Ziehen Sie den Griff in Richtung der oberen Brust; Halten Sie die Stange vor Ihrem Kopf.",
+        "Lassen Sie Ihre Arme langsam ausstrecken, ohne Ihren Oberkörper zu rucken."
+      ],
+      "row": [
+        "Spannen Sie Ihren Oberkörper an und beginnen Sie mit bequem ausgestreckten Armen.",
+        "Bringen Sie die Ellbogen zurück zu Ihren Hüften, ohne mit den Schultern zu zucken.",
+        "Führen Sie die Griffe langsam zurück und halten Sie dabei den Oberkörper ruhig."
+      ],
+      "facepull": [
+        "Legen Sie das Kabel auf Gesichtshöhe und halten Sie das Seil leicht fest.",
+        "Ziehen Sie zum Gesicht, während Sie die Hände auseinander bewegen.",
+        "Halten Sie den Nacken entspannt und kehren Sie kontrolliert zurück."
+      ],
+      "overhead": [
+        "Beginnen Sie mit der Last auf Schulterhöhe und den Rippen bequem nach unten.",
+        "Drücken Sie in einem bequemen Bereich nach oben, ohne den unteren Rücken zu krümmen.",
+        "Senken Sie sich langsam in die Ausgangsposition ab."
+      ],
+      "lateral": [
+        "Verwenden Sie eine leichte Belastung und weiche Ellbogen.",
+        "Heben Sie die Arme in einem weiten Bogen auf eine angenehme Schulterhöhe an.",
+        "Senken Sie sich langsam ab und vermeiden Sie Schwingungen oder Achselzucken."
+      ],
+      "curl": [
+        "Halten Sie Ihre Oberarme nah an Ihren Seiten.",
+        "Beugen Sie die Ellenbogen, ohne den Oberkörper zu schwingen.",
+        "Senken Sie das Gewicht langsam ab, bis Ihre Arme bequem gestreckt sind."
+      ],
+      "triceps": [
+        "Halten Sie die Oberarme ruhig; Nehmen Sie eine bequeme Schulterposition ein.",
+        "Strecken Sie die Ellbogen, während Sie die Handgelenke neutral halten.",
+        "Beugen Sie die Ellbogen langsam, um zurückzukehren; Vermeiden Sie es, den gesamten Arm zu bewegen."
+      ],
+      "plank": [
+        "Legen Sie die Ellbogen unter die Schultern. Benutzen Sie bei Bedarf Knie auf dem Boden.",
+        "Halten Sie Ihren Rumpf ruhig und atmen Sie normal.",
+        "Beenden Sie den Haltevorgang, bevor sich Ihre Haltung ändert oder Sie den Atem anhalten müssen."
+      ],
+      "deadbug": [
+        "Legen Sie sich auf den Rücken, die Arme nach oben und die Knie bequem gebeugt.",
+        "Strecken Sie einen Arm und das andere Bein weg, ohne den Rücken zu krümmen.",
+        "Kehren Sie langsam zurück und wechseln Sie die Seite."
+      ],
+      "birddog": [
+        "Beginnen Sie auf Händen und Knien mit einer bequemen, neutralen Wirbelsäule.",
+        "Strecken Sie einen Arm und das andere Bein weg, während Sie Ihre Hüften gerade halten.",
+        "Kehren Sie langsam zurück und wechseln Sie die Seite."
+      ],
+      "pallof": [
+        "Stellen Sie sich seitlich zu einem Lichtkabel oder Widerstandsband.",
+        "Drücken Sie Ihre Hände nach vorne und widerstehen Sie gleichzeitig der Drehung.",
+        "Bringen Sie Ihre Hände langsam zurück; Wiederholen Sie den Vorgang in die andere Richtung."
+      ],
+      "crunch": [
+        "Legen Sie sich mit gebeugten Knien und unterstützten Füßen auf den Rücken.",
+        "Heben Sie die Schultern ein kleines Stück an, ohne den Nacken zu ziehen.",
+        "Langsam absenken; Halten Sie die Bewegung klein und kontrolliert."
+      ],
+      "legpress": [
+        "Stellen Sie den Sitz so ein, dass Ihr unterer Rücken gestützt bleibt.",
+        "Beugen Sie die Knie in einem bequemen Bereich in einer Linie mit Ihren Zehen.",
+        "Drücken Sie die Plattform weg, ohne die Knie durchzudrücken."
+      ],
+      "legextension": [
+        "Richten Sie den Drehpunkt der Maschine auf Ihre Knie aus und setzen Sie das Schienbeinpolster ein.",
+        "Strecken Sie die Knie sanft über einen bequemen Bereich.",
+        "Langsam absenken; Vermeiden Sie es, gegen die Last zu treten."
+      ],
+      "legcurl": [
+        "Richten Sie Ihre Knie auf den Maschinendrehpunkt aus und halten Sie Ihre Hüften gestützt.",
+        "Beugen Sie die Knie, um das Polster zum Sitz zu ziehen.",
+        "Kehren Sie langsam zurück, ohne die Hüften anzuheben."
+      ],
+      "calf": [
+        "Stehen Sie mit stabiler Unterstützung und den Füßen bequem nach vorne.",
+        "Stehen Sie auf den Fußballen, ohne die Knöchel abzurollen.",
+        "Senken Sie sich langsam über einen bequemen Knöchelbereich ab."
+      ],
+      "walk": [
+        "Wählen Sie ein Tempo, in dem Sie bequem sprechen können.",
+        "Verwenden Sie natürliche Schritte und entspannte Armbewegungen.",
+        "Bauen Sie die Zeit schrittweise auf und verlangsamen Sie sie bei Bedarf."
+      ],
+      "cycle": [
+        "Stellen Sie den Sitz so ein, dass Ihr Knie unten leicht gebeugt bleibt.",
+        "Treten Sie sanft mit entspanntem Griff und angenehmem Widerstand in die Pedale.",
+        "Atmen Sie weiterhin normal und steigern Sie die Dauer schrittweise."
+      ],
+      "rower": [
+        "Beginnen Sie mit gebeugten Knien, einem stabilen Oberkörper und bequem ausgestreckten Armen.",
+        "Fahren Sie mit den Beinen, beugen Sie sich dann leicht vor und bringen Sie den Griff in Richtung der Rippen.",
+        "Führen Sie zuerst die Arme zurück, dann den Oberkörper und dann die Knie."
+      ],
+      "rearFly": [
+        "Beuge dich mit stabilem Rumpf aus der Hüfte vor und verwende ein leichtes Gewicht.",
+        "Hebe die Arme seitlich mit leicht gebeugten Ellbogen.",
+        "Senke die Arme langsam ohne Schulterzucken oder Schwung."
+      ],
+      "tricepsOverhead": [
+        "Halte ein angenehmes Gewicht über dem Kopf und die Oberarme ruhig.",
+        "Beuge die Ellbogen und senke das Gewicht hinter den Kopf.",
+        "Strecke die Ellbogen kontrolliert, ohne den unteren Rücken zu überstrecken."
+      ]
+    },
+    "muscles": {
+      "chest": "Brust",
+      "lats": "Latissimus",
+      "upperBack": "Oberer Rücken",
+      "shoulders": "Schultern",
+      "biceps": "Bizeps",
+      "triceps": "Trizeps",
+      "core": "Rumpf",
+      "quads": "Quadrizeps",
+      "hamstrings": "Beinbeuger",
+      "glutes": "Gesäß",
+      "calves": "Waden"
+    }
+  },
+  "es": {
+    "cues": {
+      "squat": [
+        "Párese con los pies a la altura de los hombros; Mantenga todo el pie en el suelo.",
+        "Siéntate entre tus caderas mientras tus rodillas siguen los dedos de tus pies.",
+        "Empuja el suelo y mantente erguido sin bloquear las rodillas."
+      ],
+      "lunge": [
+        "Utilice una postura dividida con suficiente espacio para mantener el equilibrio.",
+        "Doble ambas rodillas y bájelas hacia abajo con el talón delantero apoyado en el suelo.",
+        "Presione a través del pie delantero; utilice apoyo si el equilibrio es difícil."
+      ],
+      "step": [
+        "Utilice un escalón bajo y estable y coloque todo el pie sobre él.",
+        "Conduce a través de la pierna adelantada sin saltar desde el pie trasero.",
+        "Baje lentamente y cambie de lado."
+      ],
+      "hinge": [
+        "Prepárese suavemente; mantén la carga cerca y suaviza tus rodillas.",
+        "Mueva las caderas hacia atrás mientras mantiene una cómoda columna neutra.",
+        "Mueva las caderas hacia adelante para ponerse de pie; Evite inclinarse hacia atrás en la parte superior."
+      ],
+      "bridge": [
+        "Plante los pies y mantenga las costillas cómodamente abajo.",
+        "Empuja los talones y levanta las caderas.",
+        "Haga una pausa con el torso y los muslos alineados; bajar con control."
+      ],
+      "press": [
+        "Mantenga los pies apoyados y los omóplatos cómodos contra el banco.",
+        "Baje las manijas o la barra hacia el pecho con las muñecas apiladas sobre los codos.",
+        "Presione hacia arriba suavemente; Evite rebotar o forzar los codos."
+      ],
+      "pushup": [
+        "Coloque sus manos un poco más anchas que los hombros; use una inclinación cuando sea necesario.",
+        "Mantenga el tronco firme mientras baja el cofre entre las manos.",
+        "Presione el suelo y mantenga los codos en un ángulo cómodo."
+      ],
+      "fly": [
+        "Utilice una carga ligera con una suave flexión de los codos.",
+        "Abra los brazos formando un arco hasta que sienta un cómodo estiramiento del pecho.",
+        "Junte las manos sin encogerse de hombros ni cambiar el ángulo del codo."
+      ],
+      "pull": [
+        "Elija un agarre cómodo; cuentan las repeticiones asistidas.",
+        "Tire de los codos hacia las costillas sin balancearse.",
+        "Baje suavemente a través de un rango cómodo; Mantenga el cuello relajado."
+      ],
+      "pulldown": [
+        "Coloque la almohadilla para los muslos y siéntese erguido con los pies apoyados.",
+        "Tire de la manija hacia la parte superior del pecho; Mantenga la barra frente a su cabeza.",
+        "Deje que sus brazos se extiendan lentamente sin sacudir el torso."
+      ],
+      "row": [
+        "Apoye su torso y comience con los brazos extendidos cómodamente.",
+        "Lleva los codos hacia las caderas sin encogerte de hombros.",
+        "Regrese las manijas lentamente mientras mantiene el torso firme."
+      ],
+      "facepull": [
+        "Coloque el cable cerca de la altura de la cara y sostenga la cuerda ligeramente.",
+        "Tire hacia la cara mientras separa las manos.",
+        "Mantén el cuello relajado y regresa con control."
+      ],
+      "overhead": [
+        "Comienza con la carga a la altura de los hombros y las costillas cómodamente hacia abajo.",
+        "Presione hacia arriba a través de un rango cómodo sin arquear la espalda baja.",
+        "Baja lentamente hasta la posición inicial."
+      ],
+      "lateral": [
+        "Utilice una carga ligera y codos suaves.",
+        "Levante los brazos formando un arco amplio hasta una altura cómoda de los hombros.",
+        "Baje lentamente y evite balancearse o encogerse de hombros."
+      ],
+      "curl": [
+        "Mantenga la parte superior de sus brazos cerca de sus costados.",
+        "Doble los codos sin balancear el torso.",
+        "Baje el peso lentamente hasta que sus brazos estén cómodamente extendidos."
+      ],
+      "triceps": [
+        "Mantenga firmes los brazos; Utilice una posición cómoda para los hombros.",
+        "Estire los codos manteniendo las muñecas neutrales.",
+        "Doble los codos lentamente para regresar; Evite mover todo el brazo."
+      ],
+      "plank": [
+        "Coloque los codos debajo de los hombros; use las rodillas en el piso si es necesario.",
+        "Mantenga el tronco firme y respire normalmente.",
+        "Termine la retención antes de que su postura cambie o necesite contener la respiración."
+      ],
+      "deadbug": [
+        "Acuéstese boca arriba con los brazos en alto y las rodillas cómodamente flexionadas.",
+        "Aleje un brazo y la pierna opuesta sin arquear la espalda.",
+        "Regrese lentamente y alterne los lados."
+      ],
+      "birddog": [
+        "Comience sobre manos y rodillas con una cómoda columna neutra.",
+        "Aleje un brazo y la pierna opuesta mientras mantiene las caderas niveladas.",
+        "Regrese lentamente y alterne los lados."
+      ],
+      "pallof": [
+        "Párese de lado de un cable ligero o una banda de resistencia.",
+        "Presione sus manos hacia adelante mientras resiste la rotación.",
+        "Regrese las manos lentamente; repita mirando en la otra dirección."
+      ],
+      "crunch": [
+        "Acuéstese boca arriba con las rodillas dobladas y los pies apoyados.",
+        "Levante los hombros una pequeña distancia sin tirar del cuello.",
+        "Baje lentamente; Mantenga el movimiento pequeño y controlado."
+      ],
+      "legpress": [
+        "Ajuste el asiento para que su espalda baja quede apoyada.",
+        "Doble las rodillas en línea con los dedos de los pies en un rango cómodo.",
+        "Empuje la plataforma hacia afuera sin bloquear las rodillas."
+      ],
+      "legextension": [
+        "Alinee el pivote de la máquina con las rodillas y coloque la espinillera.",
+        "Estire las rodillas suavemente en un rango cómodo.",
+        "Baje lentamente; Evite patear la carga."
+      ],
+      "legcurl": [
+        "Alinee sus rodillas con el pivote de la máquina y mantenga sus caderas apoyadas.",
+        "Doble las rodillas para tirar de la almohadilla hacia el asiento.",
+        "Regrese lentamente sin levantar las caderas."
+      ],
+      "calf": [
+        "Párese con un soporte estable disponible y los pies mirando cómodamente hacia adelante.",
+        "Levántese sobre las puntas de los pies sin girar los tobillos.",
+        "Baje lentamente a través de un rango cómodo para el tobillo."
+      ],
+      "walk": [
+        "Elija un ritmo al que pueda hablar cómodamente.",
+        "Utilice pasos naturales y movimientos relajados de los brazos.",
+        "Aumente el tiempo gradualmente y disminuya la velocidad cuando sea necesario."
+      ],
+      "cycle": [
+        "Ajuste el asiento de modo que su rodilla quede ligeramente doblada en la parte inferior.",
+        "Pedalea suavemente con un agarre relajado y una resistencia cómoda.",
+        "Siga respirando normalmente y aumente la duración gradualmente."
+      ],
+      "rower": [
+        "Comience con las rodillas dobladas, el torso firme y los brazos cómodamente extendidos.",
+        "Conduzca con las piernas, luego inclínese ligeramente y lleve el mango hacia las costillas.",
+        "Regrese primero los brazos, luego el torso y luego las rodillas."
+      ],
+      "rearFly": [
+        "Inclina el torso desde las caderas, mantén el tronco estable y usa poco peso.",
+        "Eleva los brazos hacia los lados con los codos ligeramente flexionados.",
+        "Baja lentamente sin encoger los hombros ni balancear el cuerpo."
+      ],
+      "tricepsOverhead": [
+        "Sostén un peso cómodo sobre la cabeza y mantén los brazos estables.",
+        "Flexiona los codos para bajar el peso detrás de la cabeza.",
+        "Extiende los codos suavemente sin arquear la zona lumbar."
+      ]
+    },
+    "muscles": {
+      "chest": "Pecho",
+      "lats": "Dorsales",
+      "upperBack": "Espalda alta",
+      "shoulders": "Hombros",
+      "biceps": "Bíceps",
+      "triceps": "Tríceps",
+      "core": "Abdomen",
+      "quads": "Cuádriceps",
+      "hamstrings": "Isquiotibiales",
+      "glutes": "Glúteos",
+      "calves": "Gemelos"
+    }
+  }
+}

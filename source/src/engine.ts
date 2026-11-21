@@ -9,6 +9,8 @@ import {
   type Rank,
   type Session,
 } from './model';
+import { questBonus } from './quests';
+import type { QuestClaim } from './model';
 
 const validExercises = new Set(EXERCISES.map((exercise) => exercise.id));
 const validConditions = new Set<string>(CONDITIONS.map((condition) => condition.id));
@@ -47,10 +49,14 @@ export function createInitialData(): AppData {
     premium: { until: null, lifetime: false },
     bodyLogs: [],
     templates: [],
+    questClaims: [],
+    favorites: [],
   };
 }
 
 export function validateProfile(profile: Profile): string | null {
+  if (profile.username !== undefined && !/^[a-zA-Z0-9_]{3,20}$/.test(profile.username))
+    return 'Use 3–20 letters, numbers or underscores for your username.';
   if (profile.name.trim().length > 40) return 'Keep your name within 40 characters.';
   if (!Number.isInteger(profile.age) || profile.age < 8 || profile.age > 100)
     return 'Age must be between 8 and 100.';
@@ -174,7 +180,9 @@ export function getProgress(data: AppData): {
   totalVolume: number;
   totalSets: number;
 } {
-  const xp = data.sessions.reduce((sum, session) => sum + Math.max(0, session.xp), 0);
+  const xp =
+    data.sessions.reduce((sum, session) => sum + Math.max(0, session.xp), 0) +
+    questBonus(data.questClaims);
   const ranks = isPremium(data) ? [...RANKS, EXTENDED_RANK] : RANKS;
   let rankIndex = 0;
   ranks.forEach((rank, index) => {
@@ -380,6 +388,19 @@ export function parseBackup(text: string): AppData {
     const p = object(root.profile, 'Profile');
     profile = {
       name: string(p.name, 'Name', 40),
+      ...(p.username === undefined ? {} : { username: string(p.username, 'Username', 20) }),
+      ...(p.avatar === undefined
+        ? {}
+        : {
+            avatar: (() => {
+              const avatar = object(p.avatar, 'Character');
+              return {
+                skin: number(avatar.skin, 'Skin', 0, 4, true),
+                hair: number(avatar.hair, 'Hair', 0, 3, true),
+                shirt: number(avatar.shirt, 'Shirt', 0, 3, true),
+              };
+            })(),
+          }),
       age: number(p.age, 'Age', 8, 100, true),
       weight: number(p.weight, 'Weight', 20, 350),
       height: number(p.height, 'Height', 80, 240),
@@ -457,6 +478,9 @@ export function parseBackup(text: string): AppData {
       body: string(note.body, 'Note body', 50000),
       updatedAt: timestamp(note.updatedAt, 'Note date'),
       pinned: boolean(note.pinned, 'Pinned'),
+      ...(note.category === undefined
+        ? {}
+        : { category: choice(note.category, ['free', 'training', 'recovery'], 'Note category') }),
     };
   });
   if (new Set(notes.map((note) => note.id)).size !== notes.length)
@@ -485,6 +509,27 @@ export function parseBackup(text: string): AppData {
   );
   if (new Set(templates.map((template) => template.id)).size !== templates.length)
     throw new Error('Duplicate template IDs found.');
+  const questClaims: QuestClaim[] = array(root.questClaims ?? [], 'Quest claims', 30000).map(
+    (value) => {
+      const claim = object(value, 'Quest claim');
+      return {
+        date: date(claim.date, 'Quest date'),
+        tier: choice(claim.tier, ['easy', 'medium', 'hard'], 'Quest tier'),
+        level: choice(claim.level, ['foundation', 'standard', 'advanced'], 'Quest level'),
+      };
+    },
+  );
+  if (
+    new Set(questClaims.map((claim) => `${claim.date}:${claim.tier}`)).size !== questClaims.length
+  )
+    throw new Error('Duplicate quest claims found.');
+  const favorites = [
+    ...new Set(
+      array(root.favorites ?? [], 'Favorites', EXERCISES.length).map((value) =>
+        choice(value, [...validExercises], 'Favorite exercise'),
+      ),
+    ),
+  ];
   return {
     version: 1,
     profile,
@@ -495,5 +540,7 @@ export function parseBackup(text: string): AppData {
     premium,
     bodyLogs,
     templates,
+    questClaims,
+    favorites,
   };
 }

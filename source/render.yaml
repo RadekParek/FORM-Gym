@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: form-community
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: node --check scripts/group-server.cjs
+    startCommand: node scripts/group-server.cjs
+    healthCheckPath: /v1/health
+    envVars:
+      - key: NODE_VERSION
+        value: '22'
+      - key: FORM_GROUP_HOST
+        value: 0.0.0.0
+      - key: FORM_GROUP_ORIGINS
+        value: gym://app,https://localhost,http://localhost
+      - key: FORM_SUPABASE_URL
+        sync: false
+      - key: FORM_SUPABASE_SERVICE_KEY
+        sync: false

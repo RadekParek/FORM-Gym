@@ -20,10 +20,10 @@ public class MainActivity extends BridgeActivity {
 
     static void applyAppearance(Activity activity, String appearance) {
         boolean light = "light".equals(appearance);
-        int background = Color.parseColor(light ? "#F7F7F4" : "#111713");
+        int background = Color.parseColor(light ? "#F2F2F0" : "#101217");
         activity.getWindow().setBackgroundDrawable(new ColorDrawable(background));
         activity.getWindow().setStatusBarColor(background);
-        activity.getWindow().setNavigationBarColor(light && Build.VERSION.SDK_INT < 26 ? Color.parseColor("#242923") : background);
+        activity.getWindow().setNavigationBarColor(light && Build.VERSION.SDK_INT < 26 ? Color.parseColor("#252b36") : background);
         WindowInsetsControllerCompat bars = new WindowInsetsControllerCompat(activity.getWindow(), activity.getWindow().getDecorView());
         bars.setAppearanceLightStatusBars(light);
         bars.setAppearanceLightNavigationBars(light);

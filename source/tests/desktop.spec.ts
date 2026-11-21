@@ -88,6 +88,8 @@ test('packaged Windows profile and isolated LAN group host survive restart', asy
       })),
     ).toEqual({ secure: true, subtle: 'function', bridge: 'function' });
     await page.getByRole('button', { name: 'Continue', exact: true }).click();
+    await page.getByRole('textbox', { name: /^Username/ }).fill('desktop_smoke');
+    await page.locator('.onboarding-actions button[type=submit]').click();
     await page.getByLabel(/^Name/).fill('Desktop Smoke');
     await page.getByLabel(/^Age/).fill('30');
     await page.getByLabel(/^Weight/).fill('75');
@@ -122,6 +124,18 @@ test('packaged Windows profile and isolated LAN group host survive restart', asy
     const health = await fetch(`${host.endpoint}/v1/health`);
     expect(health.ok).toBe(true);
     expect((await health.json()).ok).toBe(true);
+    const account = await fetch(`${host.endpoint}/v1/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'packaged_host_qa',
+        password: 'isolated-test-password',
+        avatar: { skin: 1, hair: 0, shirt: 0 },
+        level: 'standard',
+      }),
+    });
+    expect(account.status).toBe(201);
+    expect((await account.json()).user.username).toBe('packaged_host_qa');
     const lanEndpoint =
       host.endpoints?.find((endpoint) => {
         const hostname = new URL(endpoint).hostname;
@@ -183,7 +197,7 @@ test('packaged Windows profile and isolated LAN group host survive restart', asy
     const restarted = await app.firstWindow();
     await restarted.waitForURL('gym://app/');
     await expect(restarted.getByRole('heading', { name: 'Dnes' })).toBeVisible();
-    await expect(restarted.locator('.profile-mini')).toContainText('Desktop Smoke');
+    await expect(restarted.locator('.profile-mini')).toContainText('@desktop_smoke');
     expect(
       await hostPortOpen(),
       'Restarting must keep the server stopped until the host action.',

@@ -1,45 +1,92 @@
-# FORM Gym
+<div align="center">
+  <img src="source/public/icon.png" alt="FORM Gym app icon" width="112" />
+  <h1>FORM GYM</h1>
+  <p><strong>Build strength. Keep your data. Train your way.</strong></p>
+  <p>Offline-first workout planning and progress tracking for Windows and Android.</p>
+  <p>
+    <a href="https://github.com/RadekParek/FORM-Gym/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/RadekParek/FORM-Gym?style=for-the-badge&color=ccff55"></a>
+    <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-ccff55?style=for-the-badge"></a>
+    <a href="https://github.com/RadekParek/FORM-Gym/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/RadekParek/FORM-Gym/total?style=for-the-badge&color=181a20"></a>
+  </p>
+  <p>
+    <a href="https://github.com/RadekParek/FORM-Gym/releases/download/v1.2.0/GYM.app.exe"><strong>↓ WINDOWS APP</strong></a>
+    &nbsp; · &nbsp;
+    <a href="https://github.com/RadekParek/FORM-Gym/releases/download/v1.2.0/FORM.Gym.apk"><strong>↓ ANDROID APK</strong></a>
+    &nbsp; · &nbsp;
+    <a href="https://github.com/RadekParek/FORM-Gym/releases/tag/v1.2.0"><strong>RELEASE NOTES</strong></a>
+  </p>
+</div>
 
-Offline workout planning, training logs, and personal notes for Windows and Android.
+---
 
-## Download v1.1.0
+## Training, without the noise.
 
-- [Windows portable app](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/GYM.app.exe)
-- [Android APK](https://github.com/RadekParek/FORM-Gym/releases/download/v1.1.0/FORM.Gym.apk)
+FORM Gym keeps the essentials close: plan a session, log the work, see your progress. Your personal training stays on your device and works offline. No account is needed to plan, train, save notes, or review your history.
 
-### Platform notes
+| Train | Progress | Groups |
+|:---:|:---:|:---:|
+| ![FORM Gym training dashboard](source/public/screenshots/dashboard.png) | ![FORM Gym progress screen](source/public/screenshots/progress.png) | ![FORM Gym group leaderboard](source/public/screenshots/groups.png) |
+| **Your day, at a glance** | **A clearer view of progress** | **Groups when you want them** |
 
-- **Windows:** x64 portable executable. Microsoft Edge WebView2 Evergreen Runtime is required. Personal data is stored locally under `%APPDATA%\FORM Gym\training.json`.
-- **Android:** Android 6.0 or newer. The APK is signed for compatible updates; future APK releases must use the original private signing key, which is not included in this repository.
+<details>
+<summary><strong>See the mobile layout</strong></summary>
+<br />
+<p align="center"><img src="source/public/screenshots/mobile.png" alt="FORM Gym on a phone-sized screen" width="360" /></p>
+</details>
 
-## Features
+## Made for the long game
 
-- Plan daily exercises, sets, repetitions, load, rest, and notes.
-- Log workouts, resume unfinished sessions, and review training history, records, ranks, and milestones.
-- Keep a personal notebook and work offline.
-- Export and restore JSON backups.
-- Use groups on a shared Wi-Fi network, or host the included group service behind HTTPS for internet access.
-- Choose from multiple languages, light/dark appearance, units, larger text, and reduced motion.
+- **Plan your week** — exercises, sets, reps, load, rest, and day notes.
+- **Train offline** — start or resume sessions and keep your records without a connection.
+- **Explore 45 exercises** — animated movement guides, form cues, muscle maps, search, and favorites.
+- **Make progress visible** — training history, personal records, ranks, milestones, and daily quests.
+- **Keep useful notes** — categories, checklists, automatic saving, recovered drafts, and undo.
+- **Back up on your terms** — export and restore your training data as JSON.
+- **Choose your setup** — dark or light appearance, multiple languages, units, larger text, and reduced motion.
+- **Train with a crew** — optional shared groups, assignments, chat, reviews, and member-reported leaderboards.
 
-Personal notes, measurements, and health details remain local. Only workout summaries explicitly shared by the user are sent to a group. The app requires no account, telemetry, API key, or payment provider; purchases are disabled in this build.
+## Downloads · v1.2.0
+
+| Platform | Download | Requirements |
+|:--|:--|:--|
+| **Windows x64** | [GYM.app.exe](https://github.com/RadekParek/FORM-Gym/releases/download/v1.2.0/GYM.app.exe) | Portable app; Microsoft Edge WebView2 Evergreen Runtime |
+| **Android** | [FORM.Gym.apk](https://github.com/RadekParek/FORM-Gym/releases/download/v1.2.0/FORM.Gym.apk) | Android 6.0 or newer |
+| **Source bundle** | [FORM-source.zip](https://github.com/RadekParek/FORM-Gym/releases/download/v1.2.0/FORM-source.zip) | Source code and build instructions |
+
+**Windows:** download and open the portable executable. Personal data is saved locally under `%APPDATA%\FORM Gym\training.json`.
+
+**Android:** download the APK and open it to install or update. This release uses the same signing certificate as v1.1.0, so compatible updates preserve the normal Android update path. The private signing key is intentionally not included.
+
+> Windows releases are unsigned and may show a SmartScreen warning. Android emulator startup was unavailable during this release, so a native emulator runtime check was not completed.
+
+### Verify your download
+
+SHA-256 checksums for the exact release files are published in [`FORM-Gym-validation.json`](FORM-Gym-validation.json) and the [v1.2.0 release notes](https://github.com/RadekParek/FORM-Gym/releases/tag/v1.2.0).
+
+## Privacy, by design
+
+Your personal training plan, measurements, health details, notes, and workout history stay local by default. FORM Gym has no telemetry, and offline training requires no account, API key, or online service.
+
+Sharing is optional. If you choose to use an online community server, only the workout summaries and quest results you submit are shared. Private notes, measurements, and health details are not sent. The released apps do **not** connect to a developer's PC or include its local server data. Online groups and the global leaderboard require an HTTPS server that you configure; see [`source/docs/community-hosting.md`](source/docs/community-hosting.md). Groups can also run on your local network.
+
+Purchases are disabled in this build. Any premium labels in the app do not charge you.
 
 ## Build from source
 
-The application source is in [`source/`](source/); its README contains the development, platform build, and test instructions. In brief, the web app uses Node.js 22 or newer:
+Requirements: Node.js 22 or newer. Android builds also need Java 21 and Android SDK 35.
 
 ```sh
 cd source
 npm ci
 npm run build
 npm test
+npm run test:groups
 ```
 
-The Windows portable package can be built with `npm run package:win`. Android builds require Java 21 and Android SDK 35; see [`source/README.md`](source/README.md) for the Gradle commands and local signing setup.
+Build Windows with `npm run package:win`. For Android, configure `android/local.properties`, run `npm run android:sync`, then build from the Android folder with `gradlew.bat assembleRelease`. Keep the local Android signing configuration and signing key private.
 
-## Release artifacts
-
-The v1.1.0 APK and Windows executable are included as GitHub Release assets. Their SHA-256 values are recorded in [`FORM-Gym-validation.json`](FORM-Gym-validation.json). The Windows executable is unsigned. Keep the Android signing key private and backed up; do not commit the `signing/` directory or Android local signing configuration.
+More development, platform, and test notes are in [`source/README.md`](source/README.md).
 
 ## License
 
-Project source is licensed under the [MIT License](LICENSE). Third-party dependencies and bundled assets remain subject to their respective licenses.
+FORM Gym source is licensed under the [MIT License](LICENSE). Third-party packages and bundled assets retain their respective licenses.

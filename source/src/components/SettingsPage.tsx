@@ -239,7 +239,7 @@ export default function SettingsPage({
                 className={`accent-choice ${data.settings.accent === accent ? 'selected' : ''}`}
                 onClick={() => setSetting('accent', accent as AppData['settings']['accent'])}
               >
-                {t(accent)}
+                {accent === 'lime' ? ({en:'Sand',sk:'Piesková',cs:'Písková',de:'Sand',es:'Arena'}[data.settings.language]) : t(accent)}
               </button>
             ))}
           </div>
@@ -313,6 +313,7 @@ export default function SettingsPage({
                 className="button danger"
                 onClick={() => {
                   localStorage.removeItem('form-active-workout-v1');
+                  localStorage.removeItem('form-note-drafts-v1');
                   onChange(createInitialData());
                   setReset(false);
                 }}
